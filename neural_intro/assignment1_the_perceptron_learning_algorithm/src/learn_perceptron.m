@@ -55,7 +55,7 @@ end
 
 %If a generously feasible weight vector exists, record the distance
 %to it from the initial weight vector.
-if (length(w_gen_feas) ~= 0)
+if (~isempty(w_gen_feas))
     w_dist_history(end+1) = norm(w - w_gen_feas);
 end
 
@@ -68,7 +68,7 @@ while (num_errs > 0)
 
     %If a generously feasible weight vector exists, record the distance
     %to it from the current weight vector.
-    if (length(w_gen_feas) ~= 0)
+    if (~isempty(w_gen_feas))
         w_dist_history(end+1) = norm(w - w_gen_feas);
     end
 
@@ -112,6 +112,7 @@ for i=1:num_neg_examples
     activation = this_case*w;
     if (activation >= 0)
         %YOUR CODE HERE
+        w = w-this_case;
     end
 end
 for i=1:num_pos_examples
