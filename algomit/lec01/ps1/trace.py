@@ -1,5 +1,6 @@
 import peak
 
+
 ################################################################################
 ########################### Class for Tracing Execution ########################
 ################################################################################
@@ -28,13 +29,13 @@ class TraceRecord(object):
         """
 
         self.sequence.append({
-            "type" : "findingMaximum",
-            "coords" : arguments
+            "type": "findingMaximum",
+            "coords": arguments
         })
 
         self.sequence.append({
-            "type" : "foundMaximum",
-            "coord" : maximum
+            "type": "foundMaximum",
+            "coord": maximum
         })
 
     def getBetterNeighbor(self, neighbor, better):
@@ -46,14 +47,14 @@ class TraceRecord(object):
         """
 
         self.sequence.append({
-            "type" : "findingNeighbor",
-            "coord" : neighbor
+            "type": "findingNeighbor",
+            "coord": neighbor
         })
 
         if (neighbor != better):
             self.sequence.append({
-                "type" : "foundNeighbor",
-                "coord" : better
+                "type": "foundNeighbor",
+                "coord": better
             })
 
     def setProblemDimensions(self, subproblem):
@@ -65,11 +66,11 @@ class TraceRecord(object):
         """
 
         self.sequence.append({
-            "type" : "subproblem",
-            "startRow" : subproblem.startRow,
-            "numRows" : subproblem.numRow,
-            "startCol" : subproblem.startCol,
-            "numCols" : subproblem.numCol
+            "type": "subproblem",
+            "startRow": subproblem.startRow,
+            "numRows": subproblem.numRow,
+            "startCol": subproblem.startCol,
+            "numCols": subproblem.numCol
         })
 
     def setBestSeen(self, bestSeen):
@@ -81,8 +82,8 @@ class TraceRecord(object):
         """
 
         self.sequence.append({
-            "type" : "bestSeen",
-            "coord" : bestSeen
+            "type": "bestSeen",
+            "coord": bestSeen
         })
 
     def foundPeak(self, peak):
@@ -93,6 +94,6 @@ class TraceRecord(object):
         """
 
         self.sequence.append({
-            "type" : "foundPeak",
-            "coord" : peak
+            "type": "foundPeak",
+            "coord": peak
         })
