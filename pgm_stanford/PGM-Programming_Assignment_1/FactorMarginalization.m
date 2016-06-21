@@ -26,7 +26,6 @@ end;
 
 % Initialize B.card and B.val
 B.card = A.card(mapB);
-B.val = zeros(1, prod(B.card));
 
 % Compute some helper indices
 % These will be very useful for calculating B.val
@@ -34,10 +33,13 @@ B.val = zeros(1, prod(B.card));
 assignments = IndexToAssignment(1:length(A.val), A.card);
 indxB = AssignmentToIndex(assignments(:, mapB), B.card);
 
+
+% All the magic is done in AssignmentToIndex
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % YOUR CODE HERE
 % Correctly populate the factor values of B
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-    
+B.val = accumarray(indxB, A.val)';
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 end

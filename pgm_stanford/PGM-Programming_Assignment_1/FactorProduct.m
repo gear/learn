@@ -46,10 +46,6 @@ C.card = zeros(1, length(C.var));
 C.card(mapA) = A.card;
 C.card(mapB) = B.card;
 
-% Initialize the factor values of C:
-%   prod(C.card) is the number of entries in C
-C.val = zeros(1, prod(C.card));
-
 % Compute some helper indices
 % These will be very useful for calculating C.val
 % so make sure you understand what these lines are doing.
@@ -61,7 +57,7 @@ indxB = AssignmentToIndex(assignments(:, mapB), B.card);
 % YOUR CODE HERE:
 % Correctly populate the factor values of C
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
+C.val = prod([A.val(indxA); B.val(indxB)],1);
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 end
