@@ -35,6 +35,6 @@ public class StrIsUnique {
 	}
 
 	public static void main(String[] args) {
-		return true;
+		System.out.println("Cool\n");
 	}
 }
