@@ -12,10 +12,12 @@ public class StrIsUnique {
 		 * character to see duplication 
 		 * until the end of the string.
 		 */
+		// Check for empty string
 		if (str_in.length() <= 0) {
 			System.out.println("Empty or corrupted string input.");
 			System.exit(1);
 		}
+		// Naive iteration 
 		for (int i = 0; i < str_in.length()-1; ++i) {
 			char curr = str_in.charAt(i);
 			for (int j = i + 1; j < str_in.length(); ++j) {
@@ -27,6 +29,12 @@ public class StrIsUnique {
 	}
 
 	boolean isUnique_Inline (String str_in) {
+		/*No extra memory used for string checking.
+		 * Iterate through the string and keep
+		 * track of the "unique list" by swapping
+		 * characters in the string. This type of
+		 * implementation needs the input string
+		 * to be an char array or StringBuffer
 		return true;
 	}
 
@@ -40,6 +48,6 @@ public class StrIsUnique {
 
 	public static void main(String[] args) {
 		StrIsUnique test_obj = new StrIsUnique();
-		System.out.println(test_obj.isUnique("labeqodkgld"));
+		System.out.println(test_obj.isUnique(args[0]));
 	}
 }
