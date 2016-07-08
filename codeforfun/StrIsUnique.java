@@ -12,29 +12,29 @@ public class StrIsUnique {
 		 * character to see duplication 
 		 * until the end of the string.
 		 */
-		for (int i = 0; i < str_in.len-1; ++i) {
+		for (int i = 0; i < str_in.length()-1; ++i) {
 			char curr = str_in.charAt(i);
-			for (int j = i + 1; j < str_in.length; ++j) {
+			for (int j = i + 1; j < str_in.length(); ++j) {
 				if (str_in.charAt(j) == curr)
-					return False;
+					return false;
 			}
 		}
-		return True;
+		return true;
 	}
 
 	boolean isUnique_Inline (String str_in) {
-		return True;
+		return true;
 	}
 
 	boolean isUnique_ASCII (String str_in) {
-		return True;
+		return true;
 	}
 
 	boolean isUnique_HashMap (String str_in) {
-		return True;
+		return true;
 	}
 
 	public static void main(String[] args) {
-		return True;
+		return true;
 	}
 }
