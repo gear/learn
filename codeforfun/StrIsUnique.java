@@ -4,7 +4,7 @@
  * v0.0: StrIsUnique.java created
  */
 
-public class IsUnique {
+public class StrIsUnique {
 	boolean isUnique (String str_in) {
 		/*Naive approach O(n^2)
 		 * Iterate through the string. 
@@ -12,29 +12,29 @@ public class IsUnique {
 		 * character to see duplication 
 		 * until the end of the string.
 		 */
-		for (int i = 0; i < str_in.length-1; ++i) {
+		for (int i = 0; i < str_in.len-1; ++i) {
 			char curr = str_in.charAt(i);
 			for (int j = i + 1; j < str_in.length; ++j) {
 				if (str_in.charAt(j) == curr)
-					return false;
+					return False;
 			}
 		}
-		return true;
+		return True;
 	}
 
 	boolean isUnique_Inline (String str_in) {
-		return true;
+		return True;
 	}
 
 	boolean isUnique_ASCII (String str_in) {
-		return true;
+		return True;
 	}
 
 	boolean isUnique_HashMap (String str_in) {
-		return true;
+		return True;
 	}
 
 	public static void main(String[] args) {
-		return true;
+		return True;
 	}
 }
