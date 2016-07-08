@@ -29,16 +29,29 @@ public class StrIsUnique {
 	}
 
 	boolean isUnique_Inline (String str_in) {
-		/*No extra memory used for string checking.
+		/*No extra memory used for string checking. O(n)
 		 * Iterate through the string and keep
 		 * track of the "unique list" by swapping
 		 * characters in the string. This type of
 		 * implementation needs the input string
-		 * to be an char array or StringBuffer
+		 * to be an char array or StringBuffer.
+		 */
+
 		return true;
 	}
 
 	boolean isUnique_ASCII (String str_in) {
+		/*Fixed memory requirement for the algorithm. O(n)
+		 * This algorithm constrains the input string
+		 * to be ASCII character only.
+		 */
+		char[] lookup_table = new char[256];
+		for(char c : str_in.toCharArray()) {
+			if (lookup_table[c] == 1)
+				return false;
+			else
+				lookup_table[c] = 1;
+		}
 		return true;
 	}
 
@@ -48,6 +61,6 @@ public class StrIsUnique {
 
 	public static void main(String[] args) {
 		StrIsUnique test_obj = new StrIsUnique();
-		System.out.println(test_obj.isUnique(args[0]));
+		System.out.println(test_obj.isUnique_ASCII(args[0]));
 	}
 }
