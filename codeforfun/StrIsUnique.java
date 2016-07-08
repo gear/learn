@@ -12,6 +12,10 @@ public class StrIsUnique {
 		 * character to see duplication 
 		 * until the end of the string.
 		 */
+		if (str_in.length() <= 0) {
+			System.out.println("Empty or corrupted string input.");
+			System.exit(1);
+		}
 		for (int i = 0; i < str_in.length()-1; ++i) {
 			char curr = str_in.charAt(i);
 			for (int j = i + 1; j < str_in.length(); ++j) {
