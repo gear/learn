@@ -35,6 +35,7 @@ public class StrIsUnique {
 	}
 
 	public static void main(String[] args) {
-		System.out.println("Cool\n");
+		StrIsUnique test_obj = new StrIsUnique();
+		System.out.println(test_obj.isUnique("labeqodkgld"));
 	}
 }
