@@ -2,7 +2,10 @@
  * Created: 2016-07-08
  * Author: Hoang NT
  * v0.0: StrIsUnique.java created
+ * v0.1: HashSet version
  */
+
+import java.util.HashSet;
 
 public class StrIsUnique {
 	boolean isUnique (String str_in) {
@@ -55,12 +58,23 @@ public class StrIsUnique {
 		return true;
 	}
 
-	boolean isUnique_HashMap (String str_in) {
+	boolean isUnique_HashSet (String str_in) {
+        /*HashMap implementation for the algorithm. O(n)
+         * This approach can get any symbol, not restricted
+         * to ASCII at the cost of memory for the HashSet.
+         */
+        HashSet<Character> charset = new HashSet<Character>();
+        for (char c : str_in.toCharArray()) {
+            if ( charset.contains(c))
+                return false;
+            else
+                charset.add(c);
+        }
 		return true;
 	}
 
 	public static void main(String[] args) {
 		StrIsUnique test_obj = new StrIsUnique();
-		System.out.println(test_obj.isUnique_ASCII(args[0]));
+		System.out.println(test_obj.isUnique_HashSet(args[0]));
 	}
 }
