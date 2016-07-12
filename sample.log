@@ -1,7 +1,0 @@
-INFO:root:I shall give you info
-ERROR:root:Oh shit error!
-ERROR:ex:Error!
-Traceback (most recent call last):
-  File "<ipython-input-10-cc309bfc670b>", line 2, in <module>
-    raise RuntimeError
-RuntimeError
