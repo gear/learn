@@ -4,6 +4,36 @@
 import java.util.HashMap;
 public class StrCheckPerm {
     static public boolean isPerm(String a, String b) {
-        
+        if (a == null || b == null) {
+            System.out.println("Invalid input(s).");
+            return false;
+        }
+        if (a.length() != b.length()) 
+            return false;
+        if (a.length() == 0)
+            return true;
+        HashMap<Character, Integer> cache = new HashMap<Character, Integer>();
+        for (char c : a.toCharArray()) {
+            int val = 1;
+            if (cache.containsKey(c)) {
+                val = cache.get(c);
+                cache.put(c,++val);
+            } else {
+                cache.put(c, val);
+            }
+        }
+        for (char c : b.toCharArray()) {
+            int val = 0;
+            try {
+                val = cache.get(c);
+            } catch(NullPointerException e) {
+                return false;
+            }
+            cache.put(c,--val);
+        }
+        for (Integer i : cache.values()) 
+            if (i != 0)
+                return false;
+        return true;
     }
 }
