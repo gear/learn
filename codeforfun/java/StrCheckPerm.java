@@ -37,6 +37,28 @@ public class StrCheckPerm {
         return true;
     }
 
+    static public boolean isPermASCII(String a, String b) {
+        if (a == null || b == null) {
+            System.out.println("Invalid null input.");
+            return false;
+        }
+        if (a.length() != b.length()) 
+            return false;
+        if (a.length() == 0)
+            return true;
+        int[] luTable = new int[256];
+        for (char c : a.toCharArray()) {
+            luTable[c]++;
+        }
+        for (char c : b.toCharArray()) {
+            luTable[c]--;
+        }
+        for (int i : luTable) 
+            if (i != 0)
+                return false;
+        return true;
+    }
+
     public static void main(String[] args) {
         if (args.length != 2) {
             System.out.println("Invalid command.");
@@ -45,5 +67,6 @@ public class StrCheckPerm {
         String a = args[0];
         String b = args[1];
         System.out.println(StrCheckPerm.isPerm(a,b));
+        System.out.println(StrCheckPerm.isPermASCII(a,b));
     }
 }
