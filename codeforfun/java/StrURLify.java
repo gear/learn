@@ -3,7 +3,7 @@
  */
 
 public class StrURLify {
-    public static void urlify(char[] rawStr) {
+    public static void urlify(char[] rawStr, int trueLength) {
         if (rawStr == null) {
             System.out.println("WARNING. Null string input.");
             return;
@@ -13,13 +13,15 @@ public class StrURLify {
             return;
         }
         StringBuilder cache = new StringBuilder();
-        for (char c : rawStr) {
+        for (int i = 0; i < trueLength; ++i) {
+            char c = rawStr[i];
             if (c == ' ')
                 cache.append("%20");
-            else
+            else {
                 cache.append(c);
+            }
         }
-        cache.getChars(0, cache.length()-1, rawStr, 0);
+        cache.getChars(0, cache.length(), rawStr, 0);
     }
     public static void urlify_inline(char[] rawStr) {
         if (rawStr == null) {
@@ -32,13 +34,13 @@ public class StrURLify {
         }
     }
     public static void main(String[] args) {
-        if (args.length != 1) {
+        if (args.length != 2) {
             System.out.println("ERROR. Invalid input.");
             return;
         }
         char[] achar = args[0].toCharArray();
-        StrURLify.urlify(achar);
+        int trueLength = Integer.parseInt(args[1]);
+        StrURLify.urlify(achar, trueLength);
         System.out.println(achar);
     }
-
 }
