@@ -36,4 +36,14 @@ public class StrCheckPerm {
                 return false;
         return true;
     }
+
+    public static void main(String[] args) {
+        if (args.length != 2) {
+            System.out.println("Invalid command.");
+            return;
+        }
+        String a = args[0];
+        String b = args[1];
+        System.out.println(StrCheckPerm.isPerm(a,b));
+    }
 }
