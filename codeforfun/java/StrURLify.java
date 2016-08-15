@@ -23,7 +23,7 @@ public class StrURLify {
         }
         cache.getChars(0, cache.length(), rawStr, 0);
     }
-    public static void urlify_inline(char[] rawStr) {
+    public static void urlify_inline(char[] rawStr, int trueLength) {
         if (rawStr == null) {
             System.out.println("WARNING. Null string input.");
             return;
@@ -31,6 +31,19 @@ public class StrURLify {
         if (rawStr.length == 0) {
             System.out.println("WARNING. Empty string input.");
             return;
+        }
+        int shiftCount = rawStr.length - trueLength;
+        for (int i = trueLength-1; i >= 0; --i) {
+            if (shiftCount <= 0)
+                return;
+            if (rawStr[i] == ' ') {
+                shiftCount -= 2;
+                rawStr[i] = '%';
+                rawStr[i+1] = '2';
+                rawStr[i+2] = '0';
+            } else {
+                rawStr[i] = rawStr[i-shiftCount];
+            }
         }
     }
     public static void main(String[] args) {
