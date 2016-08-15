@@ -42,7 +42,7 @@ public class StrURLify {
                 rawStr[i+1] = '2';
                 rawStr[i+2] = '0';
             } else {
-                rawStr[i] = rawStr[i-shiftCount];
+                rawStr[i+shiftCount] = rawStr[i];
             }
         }
     }
@@ -53,7 +53,7 @@ public class StrURLify {
         }
         char[] achar = args[0].toCharArray();
         int trueLength = Integer.parseInt(args[1]);
-        StrURLify.urlify(achar, trueLength);
+        StrURLify.urlify_inline(achar, trueLength);
         System.out.println(achar);
     }
 }
