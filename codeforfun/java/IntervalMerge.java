@@ -13,6 +13,15 @@ public class IntervalMerge {
         iset.add(new Interval<Integer>(0,2));
         iset.add(new Interval<Integer>(9,13));
         iset.add(new Interval<Integer>(21,23));
+        IntervalNode<Integer> root = null;
+        for(Interval<Integer> e : iset) {
+            if (root == null)
+                root = new IntervalNode<Integer>(e);
+            else
+                if (root.add(e))
+                    root.recursiveMerge();
+        }
+        root.print();
     }
 }
 
@@ -60,13 +69,18 @@ class Interval<T extends Comparable<T>> {
 }
 
 class IntervalNode<T extends Comparable<T>> {
-    public Interval<T> left;
-    public Interval<T> right;
+    public IntervalNode<T> left;
+    public IntervalNode<T> right;
     public Interval<T> self;
     public IntervalNode(T x, T y) {
         this.left = null;
         this.right = null;
         this.self = new Interval<T>(x, y);
+    }
+    public IntervalNode(Interval<T> init) {
+        this.left = null;
+        this.right = null;
+        this.self = init;
     }
     public boolean add(Interval<T> elem) {
         /* Return false if a branch is added
@@ -75,11 +89,25 @@ class IntervalNode<T extends Comparable<T>> {
             return true;
         if (!this.self.merge(elem)) {
             if (this.self.x.compareTo(elem.x) < 0) 
-                this.left = elem;
+                this.left = new IntervalNode<T>(elem);
             else
-                this.right = elem;
+                this.right = new IntervalNode<T>(elem);
             return false;
         }
         return true;
+    }
+    public Interval<T> recursiveMerge() {
+        if (this.left != null)
+            this.self.merge(left.recursiveMerge());
+        if (this.right != null)
+            this.self.merge(right.recursiveMerge());
+        return this.self;
+    }
+    public void print() {
+        if (this.left != null)
+            this.left.print();
+        if (this.right != null)
+            this.right.print();
+        this.self.print();
     }
 }
