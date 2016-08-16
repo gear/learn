@@ -5,14 +5,9 @@ import java.util.HashSet;
 public class IntervalMerge {
     public static void main(String[] args) {
         HashSet<Interval<Integer>> iset = new HashSet<Interval<Integer>>();
-        iset.add(new Interval<Integer>(1,5));
-        iset.add(new Interval<Integer>(2,8));
-        iset.add(new Interval<Integer>(8,12));
-        iset.add(new Interval<Integer>(7,9));
-        iset.add(new Interval<Integer>(3,4));
-        iset.add(new Interval<Integer>(0,2));
-        iset.add(new Interval<Integer>(9,13));
-        iset.add(new Interval<Integer>(21,23));
+        iset.add(new Interval<Integer>(1,20));
+        iset.add(new Interval<Integer>(4,6));
+        iset.add(new Interval<Integer>(29,41));
         IntervalNode<Integer> root = null;
         for(Interval<Integer> e : iset) {
             if (root == null)
@@ -89,9 +84,15 @@ class IntervalNode<T extends Comparable<T>> {
             return true;
         if (!this.self.merge(elem)) {
             if (this.self.x.compareTo(elem.x) < 0) 
-                this.left = new IntervalNode<T>(elem);
+                if (this.left == null) 
+                    this.left = new IntervalNode<T>(elem);
+                else
+                    this.left.add(elem);
             else
-                this.right = new IntervalNode<T>(elem);
+                if (this.right == null)
+                    this.right = new IntervalNode<T>(elem);
+                else
+                    this.right.add(elem);
             return false;
         }
         return true;
