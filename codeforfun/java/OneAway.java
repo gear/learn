@@ -1,8 +1,8 @@
 public class OneAway {
-  public static int editDistance(String org, String edited) {
+  public static boolean editDistance(String org, String edited) {
     int lengthDiff = org.length() - edited.length();
     if ((lengthDiff > 1) || (lengthDiff < -1))
-      return -1;
+      return false;
     String shorter = org;
     String longer = edited;
     if (lengthDiff == 1)
@@ -14,7 +14,7 @@ public class OneAway {
     while (i < shorter.length()) {
       if (shorter.charAt(i) != longer.charAt(j)) {
         if (diff) 
-          return -1;
+          return false;
         else {
           diff = true;
           ++j;
@@ -24,10 +24,8 @@ public class OneAway {
         ++j;
       }
     }
-    if ((lengthDiff==0) && diff)
-      return 0;
-    else
-      return 1;
+
+    return true;
   }
   public static void main(String[] args) {
     if (args.length != 2)
