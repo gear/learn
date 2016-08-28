@@ -20,12 +20,16 @@ class CalculatorBrain {
         accumulator = operand
     }
     
-    var operations: Dictionary<String, Operation> = [
+    private var operations: Dictionary<String, Operation> = [
         "π" : Operation.Constant(M_PI),
         "e" : Operation.Constant(M_E),
+        "±" : Operation.UnaryOperation({-$0}),
         "√" : Operation.UnaryOperation(sqrt),
         "cos" : Operation.UnaryOperation(cos),
-        "✕" : Operation.BinaryOperation(multiply),
+        "✕" : Operation.BinaryOperation({$0 * $1}),
+        "÷" : Operation.BinaryOperation({$0 / $1}),
+        "−" : Operation.BinaryOperation({$0 - $1}),
+        "+" : Operation.BinaryOperation({$0 + $1}),
         "=" : Operation.Equals
     ]
     
