@@ -13,6 +13,7 @@ class ViewController: UIViewController {
     @IBOutlet private weak var display: UILabel!
     
     private var userIsInTheMiddleOfTyping = false
+    private var activeFloatingPoint = false
     
     @IBAction private func touchDigit(sender: UIButton) {
         let digit = sender.currentTitle!
@@ -21,6 +22,18 @@ class ViewController: UIViewController {
             display.text = textCurrentlyInDisplay + digit
         } else {
             display.text = digit
+        }
+        userIsInTheMiddleOfTyping = true
+    }
+    @IBAction private func floatingPoint(sender: UIButton) {
+        if !activeFloatingPoint {
+            if userIsInTheMiddleOfTyping {
+                activeFloatingPoint = true
+                let textCurrentlyInDisplay = display.text!
+                display.text = textCurrentlyInDisplay + sender.currentTitle!
+            } else {
+                display.text = "0" + sender.currentTitle!
+            }
         }
         userIsInTheMiddleOfTyping = true
     }
@@ -40,8 +53,9 @@ class ViewController: UIViewController {
     }
     
     private var brain = CalculatorBrain()
-    
+
     @IBAction private func performOperation(sender: UIButton) {
+        activeFloatingPoint = false
         if userIsInTheMiddleOfTyping {
             brain.setOperand(displayValue)
             userIsInTheMiddleOfTyping = false
