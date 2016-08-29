@@ -17,8 +17,8 @@ class ViewController: UIViewController {
     @IBAction private func touchDigit(sender: UIButton) {
         let digit = sender.currentTitle!
         if userIsInTheMiddleOfTyping {
-        let textCurrentlyInDisplay = display.text!
-        display.text = textCurrentlyInDisplay + digit
+            let textCurrentlyInDisplay = display.text!
+            display.text = textCurrentlyInDisplay + digit
         } else {
             display.text = digit
         }
@@ -31,7 +31,10 @@ class ViewController: UIViewController {
             return Double(display.text!)!
         }
         set {
-            display.text = String(newValue) // keyword for set
+            if (Int(newValue) == newValue)
+                display.text = String(Int(newValue))
+            else
+                display.text = String(newValue)
         }
     }
     
