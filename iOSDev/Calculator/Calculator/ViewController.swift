@@ -31,10 +31,11 @@ class ViewController: UIViewController {
             return Double(display.text!)!
         }
         set {
-            if (Int(newValue) == newValue)
+            if (Double(Int(newValue)) == newValue) {
                 display.text = String(Int(newValue))
-            else
+            } else {
                 display.text = String(newValue)
+            }
         }
     }
     
