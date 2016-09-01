@@ -25,4 +25,12 @@ class SimpleCompression {
     compressed.append(cur);
     return compressed.toString();
   }
+
+  public static int InplaceCompress(char[] str) throws NullPointerException {
+    if (str.length < 2):
+      return;
+    char cur = 0;
+    char seeker = 0;
+    int count = 1;
+  }
 }
