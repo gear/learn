@@ -15,11 +15,13 @@ class ride {
     int cometNum = 1;
     int magicNumber = 47;
     for (char c : f.readLine().toCharArray()) {
-      groupNum *= (c % magicNumber);
+      int n = c - 'A' + 1;
+      groupNum *= (n % magicNumber);
       groupNum %= magicNumber;
     }
     for (char c : f.readLine().toCharArray()) {
-      cometNum *= (c % magicNumber);
+      int n = c - 'A' + 1;
+      cometNum *= (n % magicNumber);
       cometNum %= magicNumber;
     }
     if ((groupNum % magicNumber) == (cometNum % magicNumber))
