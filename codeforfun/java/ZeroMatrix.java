@@ -24,32 +24,32 @@ public class ZeroMatrix {
   public static void ZeroDetonate(int[][] matrix) {
     int n = matrix.length;
     int m = matrix[0].length;
-    int[] tmp = null;
+    int tmp = -1;
     for (int i = 0; i < n; ++i) {
       boolean markZero = false;
       for (int j = 0; j < m; ++j) {
         if (matrix[i][j] == 0) {
-          if (tmp == null) {
-            tmp = matrix[i];
+          if (tmp < 0) {
+            tmp = i;
             for (int k = 0; k < j; ++k)
-              tmp[k] = 0;
+              matrix[tmp][k] = 0;
           }
-          tmp[j] = 1;
+          matrix[tmp][j] = 1;
           markZero = true;
         } else {
           if (markZero)
             matrix[i][j] = 0;
         }
       }
-      if (markZero) {
+      if (markZero && i != tmp) {
         int j = 0;
         while (j < m && matrix[i][j] != 0)
           matrix[i][j++] = 0;
       }
     }
-    if (tmp != null) {
+    if (tmp >= 0) {
       for (int i = 0; i < m; ++i) {
-        if (tmp[i] == 1) {
+        if (matrix[tmp][i] == 1) {
           for (int j = 0; j < n; ++j)
             matrix[j][i] = 0;
         }
