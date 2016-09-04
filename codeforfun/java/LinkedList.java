@@ -16,15 +16,47 @@ class LinkedList {
     list.head.AppendToEnd(new Node(2));
     list.head.AppendToEnd(new Node(2));
     list.head.AppendToEnd(new Node(1));
+    System.out.println("First list:");
     list.head.PrintToEnd();
-    System.out.println("Partition:");
-    list.Partition(5);
+    LinkedList list2 = new LinkedList();
+    list2.head = new Node(0);
+    list2.head.AppendToEnd(new Node(3));
+    list2.head.AppendToEnd(new Node(5));
+    list2.head.AppendToEnd(new Node(1));
+    list2.head.AppendToEnd(new Node(2));
+    list2.head.AppendToEnd(new Node(2));
+    list2.head.AppendToEnd(new Node(1));
+    list2.head.AppendToEnd(new Node(2));
+    list2.head.AppendToEnd(new Node(2));
+    list2.head.AppendToEnd(new Node(1));
+    System.out.println("Second list:");
+    list2.head.PrintToEnd();
+    list.Add(list2);
+    System.out.println("Result:");
     list.head.PrintToEnd();
   }
 
-  public LinkedList Add(LinkedList other) {
+  public void Add(LinkedList other) {
     Node seeker = other.head;
-
+    Node adder = this.head;
+    int c = 0;
+    while (seeker != null || c > 0) {
+      if (seeker == null)
+        seeker = new Node(0);
+      int acc = seeker.key + adder.key + c;
+      if (acc > 10) {
+        adder.key = acc % 10;
+        c = acc / 10;
+      } else {
+        adder.key = acc;
+        c = 0;
+      }
+      if (adder.next == null) {
+        adder.next = new Node(0);
+      }
+      adder = adder.next;
+      seeker = seeker.next;
+    }
   }
 
   public void Partition(int val) {
