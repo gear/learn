@@ -22,6 +22,11 @@ class LinkedList {
     list.head.PrintToEnd();
   }
 
+  public LinkedList Add(LinkedList other) {
+    Node seeker = other.head;
+
+  }
+
   public void Partition(int val) {
     Node seeker = this.head;
     Node larger = null;
