@@ -26,10 +26,16 @@ class CalculatorBrain {
         "±" : Operation.UnaryOperation({-$0}),
         "√" : Operation.UnaryOperation(sqrt),
         "cos" : Operation.UnaryOperation(cos),
+        "sin" : Operation.UnaryOperation(sin),
+        "tan" : Operation.UnaryOperation(tan),
         "✕" : Operation.BinaryOperation({$0 * $1}),
         "÷" : Operation.BinaryOperation({$0 / $1}),
         "−" : Operation.BinaryOperation({$0 - $1}),
         "+" : Operation.BinaryOperation({$0 + $1}),
+        "1/x" : Operation.UnaryOperation({1.0/$0}),
+        "^" : Operation.BinaryOperation(pow),
+        "mod" : Operation.BinaryOperation({$0 % $1}),
+        "%" : Operation.UnaryOperation({$0 / 100.0}),
         "=" : Operation.Equals
     ]
     
@@ -48,9 +54,9 @@ class CalculatorBrain {
                 break
             case .UnaryOperation (let function): accumulator = function(accumulator)
                 break
-            case . BinaryOperation (let function): pending = PendingBinaryOperationInfo(binaryFunction: function, firstOperand: accumulator)
+            case .BinaryOperation (let function): pending = PendingBinaryOperationInfo(binaryFunction: function, firstOperand: accumulator)
                 break
-            case . Equals:
+            case .Equals:
                 if pending != nil {
                     accumulator = pending!.binaryFunction(pending!.firstOperand, accumulator)
                     pending = nil
