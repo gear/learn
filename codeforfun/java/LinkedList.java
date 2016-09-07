@@ -4,36 +4,31 @@ import java.io.*;
 class LinkedList {
   public Node head;
 
-  public static void main(String[] args) {
-    LinkedList list = new LinkedList();
-    list.head = new Node(0);
-    list.head.AppendToEnd(new Node(2));
-    list.head.AppendToEnd(new Node(3));
-    list.head.AppendToEnd(new Node(1));
-    list.head.AppendToEnd(new Node(2));
-    list.head.AppendToEnd(new Node(2));
-    list.head.AppendToEnd(new Node(2));
-    list.head.AppendToEnd(new Node(2));
-    list.head.AppendToEnd(new Node(2));
-    list.head.AppendToEnd(new Node(1));
-    System.out.println("First list:");
-    list.head.PrintToEnd();
+  public static void main(String[] args) throws IOException {
+    LinkedList list1 = new LinkedList();
     LinkedList list2 = new LinkedList();
-    list2.head = new Node(0);
-    list2.head.AppendToEnd(new Node(3));
-    list2.head.AppendToEnd(new Node(5));
-    list2.head.AppendToEnd(new Node(1));
-    list2.head.AppendToEnd(new Node(2));
-    list2.head.AppendToEnd(new Node(2));
-    list2.head.AppendToEnd(new Node(1));
-    list2.head.AppendToEnd(new Node(2));
-    list2.head.AppendToEnd(new Node(2));
-    list2.head.AppendToEnd(new Node(1));
+    BufferedReader f = new BufferedReader(new FileReader(args[0]));
+    StringTokenizer st1 = new StringTokenizer(f.readLine());
+    StringTokenizer st2 = new StringTokenizer(f.readLine());
+    while (st1.hasMoreTokens()) {
+      if (list1.head == null)
+        list1.head = new Node(Integer.parseInt(st1.nextToken()));
+      else
+        list1.head.AppendToEnd(new Node(Integer.parseInt(st1.nextToken())));
+    }
+    while (st2.hasMoreTokens()) {
+      if (list2.head == null)
+        list2.head = new Node(Integer.parseInt(st2.nextToken()));
+      else
+        list2.head.AppendToEnd(new Node(Integer.parseInt(st2.nextToken())));
+    }
+    System.out.println("First list:");
+    list1.head.PrintToEnd();
     System.out.println("Second list:");
     list2.head.PrintToEnd();
-    list.Add(list2);
-    System.out.println("Result:");
-    list.head.PrintToEnd();
+    System.out.println("Sum:");
+    list1.Add(list2);
+    list1.head.PrintToEnd();
   }
 
   public void Add(LinkedList other) {
@@ -44,7 +39,7 @@ class LinkedList {
       if (seeker == null)
         seeker = new Node(0);
       int acc = seeker.key + adder.key + c;
-      if (acc > 10) {
+      if (acc >= 10) {
         adder.key = acc % 10;
         c = acc / 10;
       } else {
