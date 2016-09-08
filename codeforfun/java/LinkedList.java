@@ -46,7 +46,7 @@ class LinkedList {
         adder.key = acc;
         c = 0;
       }
-      if (adder.next == null) {
+      if (adder.next == null && seeker.next != null) {
         adder.next = new Node(0);
       }
       adder = adder.next;

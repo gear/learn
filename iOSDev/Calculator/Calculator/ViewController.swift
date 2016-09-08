@@ -66,4 +66,3 @@ class ViewController: UIViewController {
         displayValue = brain.result
     }
 }
-
