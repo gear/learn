@@ -23,15 +23,23 @@ public class DP_LCS {
 
     public static int lcs(String a, String b) {
         int[][] arr = new int[a.length()][b.length()];
-        for (int i = 0; i < a.length(); ++i) {//
-            for (int j = 0; j < b.length(); ++j) {//
-                if (a.charAt(i) == b.charAt(j)) {//
+        for (int i = 0; i < a.length(); ++i) {
+            for (int j = 0; j < b.length(); ++j) {
+                if (a.charAt(i) == b.charAt(j)) {
                     arr[i][j] = mem(i-1,j-1,arr) + 1;
-                } else {//
+                } else {
                     arr[i][j] = max(mem(i,j-1,arr),mem(i-1,j,arr)); 
                 }
             }
         }
+        int i = arr.length-1;
+        int j = arr[0].length-1;
+        while (j >= 0) {
+           if(arr[i][j] != oldVal)
+        }
+
+            
+
         return arr[a.length()-1][b.length()-1];
     }
 }
