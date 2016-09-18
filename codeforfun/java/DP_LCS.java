@@ -32,18 +32,17 @@ public class DP_LCS {
                 }
             }
         }
-        int i = arr.length;
+        int i = arr[0].length;
         int oldVal = arr[a.length()-1][b.length()-1];
         char[] strLCS = new char[oldVal];
         while (i >= 0) {
           --i;
           if(mem(a.length()-1,i,arr) != oldVal) {
-            oldVal =  mem(a.length()-1,i,arr);
+            oldVal = mem(a.length()-1,i,arr);
             System.out.print(b.charAt(i+1));
           }
         }
         System.out.println();
-
         return arr[a.length()-1][b.length()-1];
     }
 }
