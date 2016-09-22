@@ -23,7 +23,7 @@ public class ZigZag {
     return max;
   }
   public static void main(String[] args) {
-    int[] arr = new int[]{1,4,3,6,5,3,2,7,5,3,1,5,3,2,6,7,8,9,6};
+    int[] arr = new int[]{1,17,5,10,13,15,10,5,16,8};
     System.out.println(ZigZag.longestZigZag(arr));
   }
 }
