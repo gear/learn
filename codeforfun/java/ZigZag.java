@@ -22,8 +22,29 @@ public class ZigZag {
     }
     return max;
   }
+  public static int longestZigZag(int[] sequence, boolean fast) {
+    int n = sequence.length;
+    if (n == 1) return 1;
+    int[] distances = new int[n-1];
+    int fstNonzero = 0;
+    for (int i = n-1; i >= 1; --i) {
+      distances[i-1] = sequence[i] - sequence[i-1];
+      if (distances[i-1] != 0)
+        fstNonzero = i-1;
+    }
+    int root = distances[fstNonzero];
+    int len = 2;
+    for (int i = fstNonzero + 1; i < n-1; ++i) {
+      if (distances[i] * root < 0) {
+        root = -root;
+        ++len;
+      }
+    }
+    return len;
+  }
   public static void main(String[] args) {
     int[] arr = new int[]{1,17,5,10,13,15,10,5,16,8};
     System.out.println(ZigZag.longestZigZag(arr));
+    System.out.println(ZigZag.longestZigZag(arr, true));
   }
 }
