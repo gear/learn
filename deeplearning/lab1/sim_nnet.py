@@ -82,9 +82,9 @@ class nnet:
                 I.append(o)
             self.forward_saves.append(I)
 
-
     def backpropagation(self, labels):
         'Compute gradient of error with respect to each weight.'
+
         
 
 
