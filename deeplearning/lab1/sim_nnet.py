@@ -12,11 +12,15 @@ def main():
     print('Initializing neural net...')
 
 def sigmoid(X):
-    return [np.exp(x) for x in X]
+    return np.array([np.exp(x) for x in X])
 
 def d_sigmoid(X):
     'Derivative of sigmoid function. Numpy arrays.'
     return sigmoid(X) * (1-sigmoid(X))
+
+def l2(Y_hat, Y):
+    'Euclidean distance'
+    return 
 
 def matmul(X,Y):
     'Matrix multiplication X * Y.'
@@ -84,7 +88,7 @@ class nnet:
 
     def backpropagation(self, labels):
         'Compute gradient of error with respect to each weight.'
-
+        de_df = l2_div 
         
 
 
