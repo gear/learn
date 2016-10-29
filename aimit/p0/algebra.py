@@ -174,45 +174,24 @@ def do_multiply(expr1, expr2):
     '*' will not help you.
     """
     if len(expr1) == len(expr2) == 1:
-        return Product([expr1, expr2])
-    if isinstance(expr1, Sum):
-        terms1 = expr1.simplify()
-        result = Sum()
-        if isinstance(expr2, Sum):
-            terms2 = expr2.simplify()
-            for term1 in terms1:
-                for term2 in terms2:
-                    result.append(multiply(term1, term2))
+        return Product([expr1[0], expr2[0]])
+    if isinstance(expr1, type(expr2)):
+        if isinstance(expr1, Sum):
+            result = Sum([])
+            for e in expr1:
+                for ex in expr2:
+                    result.append(multiply(e, ex))
             return result
-        elif isinstance(expr2, Product):
-            for term in terms1:
-                result.append(multiply(term, expr2))
-            return result
-    elif isinstance(expr2, Sum):
-        terms2 = expr2.simplify()
-        result = Sum()
-        for term in terms2:
-            result.append(multiply(expr1, term))
-        return result
+        else:
+            expr1.extend(expr2)
+            return expr1.flatten()
     else:
-        expr1.extend(expr2)
-        return expr1
-        
-            
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+        result = Sum([])
+        if isinstance(expr1, Sum):
+            for e in expr1:
+                result.append(multiply(expr2, e))
+        else:
+            for e in expr2:
+                result.append(multiply(expr1, e))
+        return result
 
