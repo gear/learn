@@ -173,25 +173,44 @@ def do_multiply(expr1, expr2):
     Look above for details on the Sum and Product classes. The Python operator
     '*' will not help you.
     """
-    if len(expr1) == len(expr2) == 1:
-        return Product([expr1[0], expr2[0]])
-    if isinstance(expr1, type(expr2)):
-        if isinstance(expr1, Sum):
-            result = Sum([])
-            for e in expr1:
-                for ex in expr2:
-                    result.append(multiply(e, ex))
-            return result
-        else:
-            expr1.extend(expr2)
-            return expr1.flatten()
-    else:
-        result = Sum([])
-        if isinstance(expr1, Sum):
-            for e in expr1:
-                result.append(multiply(expr2, e))
-        else:
-            for e in expr2:
-                result.append(multiply(expr1, e))
-        return result
+    computer = get_multiplier(type(expr1), type(expr2))
+    return computer(expr1, expr2)
 
+def do_mul_sum_prod(s, p):
+    """
+    Perform multiplication between a sum and a product.
+    
+    Return a sum of products.
+    """
+    if not isinstance(s, Sum):
+        t = s
+        s = p
+        p = t
+    return Sum([multiply(e, p) for e in s])
+
+def do_mul_sum_sum(s1, s2):
+    """
+    Perform multiplication between two sums.
+
+    Return a sum of products.
+    """
+    result = []
+    for term1 in s1:
+        for term2 in s2:
+            result.append(multiply(term1, term2))
+    return Sum(result)
+
+def do_mul_prod_prod(p1, p2):
+    return Product([p1, p2]).flatten()
+
+def get_multiplier(type1, type2):
+    if type1 is Product:
+        if type2 is Product:
+            return do_mul_prod_prod
+        else:
+            return do_mul_sum_prod
+    else:
+        if type2 is Sum:
+            return do_mul_sum_sum
+        else:
+            return do_mul_sum_prod
