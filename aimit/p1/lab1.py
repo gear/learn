@@ -91,7 +91,7 @@ poker_data = ( 'two-pair beats pair',
 # should be able to deduce that a three-of-a-kind beats a pair,
 # because a three-of-a-kind beats two-pair, which beats a pair.
 transitive_rule = IF( AND('(?x) beats (?y)',
-                          '(?y) beats (?z)'), 
+                          '(?y) beats (?z)', NOT('(?x) beats (?z)')), 
                       THEN('((?x) beats (?z)') )
 
 # You can test your rule like this:
@@ -116,7 +116,19 @@ TEST_RESULTS_TRANS2 = forward_chain([transitive_rule],
 
 # Then, put them together into a list in order, and call it
 # family_rules.
-family_rules = [ ]                    # fill me in
+family_rules = [\
+    IF(OR('male (?x)', 'female (?x)'), THEN('same (?x) (?x)')),
+    IF(AND('parent (?x) (?y)', 'male (?x)'), THEN('father (?x) (?y)')), #father
+    IF(AND('parent (?x) (?y)', 'female (?x)'), THEN('mother (?x) (?y)')), #mother
+    IF(AND('parent (?x) (?y)', 'parent (?x) (?z)', 'male (?y)', NOT('same (?y) (?z)')), THEN('brother (?y) (?z)')), #brother
+    IF(AND('parent (?x) (?y)', 'parent (?x) (?z)', 'female (?y)', NOT('same (?y) (?z)')), THEN('sister (?y) (?z)')), #sister
+    IF(AND('parent (?x) (?y)', 'male (?y)'), THEN('son (?y) (?x)')), #son
+    IF(AND('parent (?x) (?y)', 'female (?y)'), THEN('daughter (?x) (?y)')), #daughter
+    IF(AND('parent (?x) (?y)', 'parent (?z) (?w)', OR('brother (?x) (?z)', 'sister (?x) (?z)'), NOT('same (?y) (?w)'), NOT('same (?x) (?z)')), THEN('cousin (?y) (?w)')), #cousin
+    IF(AND('parent (?x) (?y)', 'parent (?y) (?z)'), THEN('grandparent (?x) (?z)')), #grandparent
+    IF(AND('parent (?x) (?y)', 'parent (?y) (?z)'), THEN('grandchild (?z) (?x)')), #grandchild
+    
+]
 
 # Some examples to try it on:
 # Note: These are used for testing, so DO NOT CHANGE

@@ -151,7 +151,7 @@ class IF(object):
                 new_rules.add( populate(a, k) )
                 if len(new_rules) != old_rules_count:
                     if verbose:
-                        print("Rule:", sel)
+                        print("Rule:", self)
                         print("Added:", populate(a, k))
                     if apply_only_one:
                         return tuple(sorted(new_rules))
