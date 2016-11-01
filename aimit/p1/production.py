@@ -60,8 +60,8 @@ def instantiate(template, values_dict):
                                     for x in template])
     elif isinstance(template, basestring):
         return AIStringToPyTemplate(template) % values_dict
-    else: raise ValueError, "Don't know how to populate a %s" % \
-      type(template)
+    else: raise ValueError("Don't know how to populate a %s" % \
+      type(template))
 
 # alternate name for instantiate
 populate = instantiate
@@ -151,8 +151,8 @@ class IF(object):
                 new_rules.add( populate(a, k) )
                 if len(new_rules) != old_rules_count:
                     if verbose:
-                        print "Rule:", self
-                        print "Added:", populate(a, k)
+                        print("Rule:", sel)
+                        print("Added:", populate(a, k))
                     if apply_only_one:
                         return tuple(sorted(new_rules))
             for d in self._delete_clause:
@@ -160,8 +160,8 @@ class IF(object):
                     new_rules.remove( populate(d, k) )
                     if len(new_rules) != old_rules_count:
                         if verbose:
-                            print "Rule:", self
-                            print "Deleted:", populate(d, k)
+                            print("Rule:", self)
+                            print("Deleted:", populate(d, k))
                         if apply_only_one:
                             return tuple(sorted(new_rules))
                 except KeyError:
