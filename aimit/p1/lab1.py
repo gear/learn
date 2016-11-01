@@ -17,7 +17,7 @@ from production import IF, AND, OR, NOT, THEN, forward_chain
 #    2. the consequent
 #    3. both
 
-ANSWER_1 = 'your answer here'
+ANSWER_1 = '2'
 
 # A rule-based system about Monty Python's "Dead Parrot" sketch
 # uses the following rules:
@@ -37,10 +37,10 @@ ANSWER_1 = 'your answer here'
 
 # Will this system produce the datum 'Polly is pining for the
 # fjords'?  Answer 'yes' or 'no'.
-ANSWER_2 = 'your answer here'
+ANSWER_2 = 'no'
 
 # Which rule contains a programming error? Answer '1' or '2'.
-ANSWER_3 = 'your answer here'
+ANSWER_3 = '2'
 
 # If you're uncertain of these answers, look in tests.py for an
 # explanation.
@@ -51,7 +51,7 @@ ANSWER_3 = 'your answer here'
 #
 # ( IF( AND( '(?x) has feathers',  # rule 1
 #            '(?x) has a beak' ),
-#       THEN( '(?x) is a bird' ),
+#       THEN( '(?x) is a bird' ) ),
 #   IF( AND( '(?y) is a bird',     # rule 2
 #            '(?y) cannot fly',
 #            '(?y) can swim' ),
@@ -69,11 +69,11 @@ ANSWER_3 = 'your answer here'
 # what is asked.  After we start the system running, which rule
 # fires first?
 
-ANSWER_4 = 'your answer here'
+ANSWER_4 = '1'
 
 # Which rule fires second?
 
-ANSWER_5 = 'your answer here'
+ANSWER_5 = '2'
 
 
 # Problem 1.3.1: Poker hands
@@ -90,7 +90,9 @@ poker_data = ( 'two-pair beats pair',
 # which poker hands beat which, transitively. For example, it
 # should be able to deduce that a three-of-a-kind beats a pair,
 # because a three-of-a-kind beats two-pair, which beats a pair.
-transitive_rule = IF( AND(), THEN() )
+transitive_rule = IF( AND('(?x) beats (?y)',
+                          '(?y) beats (?z)'), 
+                      THEN('((?x) beats (?z)') )
 
 # You can test your rule like this:
 # print forward_chain([transitive_rule], poker_data)
