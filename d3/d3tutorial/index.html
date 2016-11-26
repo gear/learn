@@ -12,14 +12,24 @@
 
   <script>
 
-    d3.select("p").text("Play with console");
+    d3.select("p").text("Fetch data from external file.");
 
-    var data = [10, 20, 30, 40, 50];
+    d3.json("mydata.json", function (data) { 
 
-    console.log(d3.sum(data));
-    console.log(d3.min(data));
-    console.log(data.sort(d3.descending));
-    console.log(d3.shuffle(data));
+      var canvas = d3.select("body").append("svg")
+                     .attr("width", 500)
+                     .attr("height", 500);
+      canvas.selectAll("rect")
+        .data(data)
+        .enter()
+          .append("rect")
+          .attr("width", function (d) {return d.age;})
+          .attr("height", 50)
+          .attr("y", function (d, i) {return i*50;})
+          .attr("fill", "blue")
+    
+    })
+
 
   </script>
 
