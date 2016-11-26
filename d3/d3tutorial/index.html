@@ -12,7 +12,7 @@
 
   <script>
 
-    d3.select("p").text("DOM elements and data numbers.");
+    d3.select("p").text("Transition as animation.");
 
     var data = [10];
 
@@ -21,21 +21,20 @@
                    .attr("width", 500)
                    .attr("height", 500);
 
-    var circle1 = canvas.append("circle")
+    var circle = canvas.append("circle")
                    .attr("cx", 50)
-                   .attr("cy", 100)
+                   .attr("cy", 50)
                    .attr("r", 25);
 
-    var circle2 = canvas.append("circle")
-                   .attr("cx", 50)
-                   .attr("cy", 200)
-                   .attr("r", 25);
-
-    var circles = canvas.selectAll("circle")
-                   .data(data)
-                   .attr("fill", "green")
-                   .exit()
-                     .attr("fill", "blue");
+    circle.transition()
+      .each("end", function () {d3.select(this).attr("fill", "red"); })
+      .duration(150)
+      .attr("cx", 150)
+      .each("start", function() {d3.select(this).attr("fill", "blue");})
+      .transition()
+      .attr("cy", 200)
+      .transition()
+      .attr("cx", 50);
 
 
   </script>
