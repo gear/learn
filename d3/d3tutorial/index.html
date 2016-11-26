@@ -12,30 +12,14 @@
 
   <script>
 
-    d3.select("p").text("Transition as animation.");
+    d3.select("p").text("Play with console");
 
-    var data = [10];
+    var data = [10, 20, 30, 40, 50];
 
-    var canvas = d3.select("body")
-                   .append("svg")
-                   .attr("width", 500)
-                   .attr("height", 500);
-
-    var circle = canvas.append("circle")
-                   .attr("cx", 50)
-                   .attr("cy", 50)
-                   .attr("r", 25);
-
-    circle.transition()
-      .each("end", function () {d3.select(this).attr("fill", "red"); })
-      .duration(150)
-      .attr("cx", 150)
-      .each("start", function() {d3.select(this).attr("fill", "blue");})
-      .transition()
-      .attr("cy", 200)
-      .transition()
-      .attr("cx", 50);
-
+    console.log(d3.sum(data));
+    console.log(d3.min(data));
+    console.log(data.sort(d3.descending));
+    console.log(d3.shuffle(data));
 
   </script>
 
