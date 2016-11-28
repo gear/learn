@@ -12,40 +12,43 @@
 
   <script>
 
-      d3.select("p").text("Clustered layout, pack layout, bubble layout.");
+      d3.select("p").text("Histogram layout.");
 
-      var width = 800, height = 600;
-      
+      var width = 500, height = 500, padding = 50;
 
-      var canvas = d3.select("body").append("svg")
+      d3.csv("ages.csv", function (data) {
+        var map = data.map(function (i) {return i.age;});
+        var histogram = d3.layout.histogram()
+                          .bins(7)
+                          (map);
+        var y = d3.scale.linear()
+                  .domain([0,d3.max(histogram.map(function(i) {return i.length;}))])
+                  .range([0,height]);
+        var x = d3.scale.linear()
+                  .domain([0,d3.max(map)])
+                  .range([0,width]);
+        console.log(histogram);
+        var canvas = d3.select("body").append("svg")
                      .attr("width", width)
-                     .attr("height", height)
+                     .attr("height", height + padding)
                      .append("g")
-                       .attr("transform", "translate(50,50)");
-
-      var pack = d3.layout.pack()
-                   .size([width, height-50])
-                   .padding(10);
-
-      d3.json("mydata2.json", function (data) {
-        var nodes = pack.nodes(data);
-        var node = canvas.selectAll(".node")
-                     .data(nodes)
+                     .attr("transform", "translate(20,0)");
+        var bars = canvas.selectAll(".bar")
+                     .data(histogram)
                      .enter()
-                     .append("g")
-                       .attr("class", "node")
-                       .attr("transform", function(d) { return "translate(" + d.x + "," + d.y + ")"; });
-
-        node.append("circle")
-          .attr("r", function (d) { return d.r; })
-          .attr("fill", function (d) { return d.children ? "#fff" : "steelblue"; })
-          .attr("opacity", 0.25)
-          .attr("stroke", function (d) { return d.children ? "#fff" : "#ADADAD"; })
-          .attr("stroke-width", 2);
-
-        node.append("text")
-          .text(function (d) { return d.children ? "" : d.name; });
-
+                       .append("g");
+        var xAxis = d3.svg.axis()
+                      .scale(x)
+                      .orient("bottom");
+        var group = canvas.append("g")
+                      .attr("transform", "translate(0," + height + ")")
+                      .call(xAxis);
+        bars.append("rect")
+          .attr("x", function (d) { return x(d.x); })
+          .attr("y", function (d) { return height - y(d.y); })
+          .attr("width", function (d) { return x(d.dx); })
+          .attr("height", function (d) { return y(d.y); })
+          .attr("fill", "steelblue");
       });
 
   </script>
