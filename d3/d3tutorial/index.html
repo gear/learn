@@ -12,60 +12,36 @@
 
   <script>
 
-      d3.select("p").text("Histogram layout.");
+      var color = d3.scale.category10();
 
-      var width = 500, height = 500, padding = 50;
+      d3.select("p").text("Treemap layout.");
 
-      d3.csv("ages.csv", function (data) {
+      var canvas = d3.select("body").append("svg")
+                     .attr("width", 500)
+                     .attr("height", 500);
 
-        var map = data.map(function (i) {return i.age;});
-        
-        var histogram = d3.layout.histogram()
-                          .bins(7)
-                          (map);
-                          
-        var y = d3.scale.linear()
-                  .domain([0,d3.max(histogram.map(function(i) {return i.length;}))])
-                  .range([0,height]);
-                  
-        var x = d3.scale.linear()
-                  .domain([0,d3.max(map)])
-                  .range([0,width]);
-                  
-        var xAxis = d3.svg.axis()
-                      .scale(x)
-                      .orient("bottom");
+      d3.json("mydata.json", function (data) {
+        var treemap= d3.layout.treemap()
+                       .size([500,500])
+                       .nodes(data)
+        var cells = canvas.selectAll(".cell")
+                          .data(treemap)
+                          .enter()
+                          .append("g")
+                          .attr("class", "cell")
+        cells.append("rect")
+             .attr("x", function (d) { return d.x; })
+             .attr("y", function (d) { return d.y; })
+             .attr("width", function (d) { return d.dx; })
+             .attr("height", function (d) { return d.dy; })
+             .attr("fill", function (d) { return d.children ? null : color(d.parent.name); })
+             .attr("stroke", "#fff");
 
-        var canvas = d3.select("body").append("svg")
-                     .attr("width", width)
-                     .attr("height", height + padding)
-                     .append("g")
-                       .attr("transform", "translate(20,0)");
-                      
-        var group = canvas.append("g")
-                      .attr("transform", "translate(0," + height + ")")
-                      .call(xAxis);
-
-        var bars = canvas.selectAll(".bar")
-                     .data(histogram)
-                     .enter()
-                       .append("g");
-                      
-        bars.append("rect")
-          .attr("x", function (d) { return x(d.x); })
-          .attr("y", function (d) { return height - y(d.y); })
-          .attr("width", function (d) { return x(d.dx); })
-          .attr("height", function (d) { return y(d.y); })
-          .attr("fill", "steelblue");
-
-        bars.append("text")
-          .attr("x", function (d) {return x(d.x);})
-          .attr("y", function (d) {return height - y(d.y);})
-          .attr("dy", "20px")
-          .attr("dx", function (d) {return x(d.dx)/2;})
-          .attr("fill", "#fff")
-          .attr("text-anchor", "middle")
-          .text(function (d) {return d.y;});
+        cells.append("text")
+             .attr("x", function (d) { return d.x + d.dx / 2; })
+             .attr("y", function (d) { return d.y + d.dy / 2; })
+             .text(function (d) { return d.children ? null : d.name; })
+             .attr("text-anchor", "middle");
       });
 
   </script>
