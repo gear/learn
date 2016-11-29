@@ -12,36 +12,25 @@
 
   <script>
 
-      var color = d3.scale.category10();
-
-      d3.select("p").text("Treemap layout.");
+      d3.select("p").text("Japan Map layout.");
 
       var canvas = d3.select("body").append("svg")
-                     .attr("width", 500)
-                     .attr("height", 500);
+                     .attr("width", 760)
+                     .attr("height", 700);
 
-      d3.json("mydata.json", function (data) {
-        var treemap= d3.layout.treemap()
-                       .size([500,500])
-                       .nodes(data)
-        var cells = canvas.selectAll(".cell")
-                          .data(treemap)
+      d3.json("japan.geojson", function (data) {
+        console.log(data)
+        var group = canvas.selectAll("g")
+                          .data(data.features)
                           .enter()
-                          .append("g")
-                          .attr("class", "cell")
-        cells.append("rect")
-             .attr("x", function (d) { return d.x; })
-             .attr("y", function (d) { return d.y; })
-             .attr("width", function (d) { return d.dx; })
-             .attr("height", function (d) { return d.dy; })
-             .attr("fill", function (d) { return d.children ? null : color(d.parent.name); })
-             .attr("stroke", "#fff");
+                            .append("g");
 
-        cells.append("text")
-             .attr("x", function (d) { return d.x + d.dx / 2; })
-             .attr("y", function (d) { return d.y + d.dy / 2; })
-             .text(function (d) { return d.children ? null : d.name; })
-             .attr("text-anchor", "middle");
+        var projection = d3.geo.mercator();
+        var path = d3.geo.path().projection(projection);
+        var areas = group.append("path")
+                         .attr("d", path)
+                         .attr("fill", "red")
+                         .attr("class", "area");
       });
 
   </script>
