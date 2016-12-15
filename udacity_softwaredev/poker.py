@@ -21,7 +21,7 @@ def hand_rank(hand):
     sorted_ranks = sorted(['--23456789TJQKA'.index(r) for r,s in hand], \
                           reverse = True)
     unzip = lambda lst: zip(*lst)
-    counts, ranks = unzip(group(shorted_ranks))
+    counts, ranks = unzip(group(sorted_ranks))
     if ranks == (14, 5, 4, 3, 2):
         ranks = (5, 4, 3, 2, 1)
     straight = len(ranks) == 5 and max(ranks) - min(ranks) == 4
