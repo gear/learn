@@ -18,25 +18,31 @@ def hand_rank(hand):
     Return a tuple value indicate the
     value of a hand.
     """
-    ranks = card_ranks(hand)
-    if straight(ranks) and flush(hand):
-        return (8, max(ranks))
-    elif kind(4, ranks):
-        return (7, kind(4, ranks), kind(1, ranks))
-    elif kind(3, ranks) and kind(2, ranks):
-        return (6, kind(3, ranks), kind(2, ranks))
-    elif flush(hand):
-        return (5, ranks)
-    elif straight(ranks):
-        return (4, max(ranks))
-    elif kind(3, ranks):
-        return (3, kind(3, ranks), ranks)
-    elif two_pair(ranks):
-        return (2, two_pair(ranks), ranks)
-    elif kind(2, ranks):
-        return (1, kind(2, ranks), ranks)
-    else:
-        return (0, ranks)
+    sorted_ranks = sorted(['--23456789TJQKA'.index(r) for r,s in hand], \
+                          reverse = True)
+    unzip = lambda lst: zip(*lst)
+    counts, ranks = unzip(group(shorted_ranks))
+    if ranks == (14, 5, 4, 3, 2):
+        ranks = (5, 4, 3, 2, 1)
+    straight = len(ranks) == 5 and max(ranks) - min(ranks) == 4
+    flush = len(set([s for _, s in hand])) == 1
+    return (9 if (5,) == counts else
+            8 if straight and flush else
+            7 if (4,1) == counts else
+            6 if (3,2) == counts else
+            5 if flush else
+            4 if straight else
+            3 if (3, 1, 1) == counts else
+            2 if (2, 2, 1) == counts else
+            1 if (2, 1, 1, 1) == counts else
+            0), ranks 
+
+def group(items):
+    """
+    Return item count zipped with the unique item.
+    """
+    return [(items.count(i), i) for i in set(items)] 
+
 
 def card_ranks(hand):
     """
