@@ -32,15 +32,14 @@ def swapall_shuffle(lst):
         return tuple(lst)
     j = 0
     for i, _ in enumerate(lst):
-        while j == i:
-            j = random.randint(0, len(lst)-1)
+        j = random.randint(0, len(lst)-1)
         swap(lst, i, j)
     return tuple(lst)
     
 def swap(lst, i, j):
     (lst[i], lst[j]) = (lst[j], lst[i])
 
-def test(shuff_func, lst, num_shuffle=1000):
+def test(shuff_func, lst, num_shuffle=5000):
     abc_count = {}
     for _ in range(num_shuffle):
         abc = lst.copy() # note this
