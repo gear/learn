@@ -5,13 +5,26 @@
 import itertools
 
 # [6C 6S 6H 7C 8C 9C TC] => [6C 7C 8C 9C TC] 
+# Possible solution: Try all combination for 5 cards out of 7
+# Algorithm: 
+#   1. Start at index i of the 5 hand
+#   2. Swap five_hand[i] with first card in swap card
+#   3. for j = i to eol: Swap five_hand[i] with second card in swap card
+#   4. Increate i
+#   5. Repeat 1
 
 def best_hand(hand):
     """
     From a 7-card hand, return the best
     5-card hand.
     """
-
+    five_hand = hand[:5] 
+    swap_cards = hand[5:]
+    best_rank, best_hand = hand_rank(five_hand), five_hand
+    for i, card in enumerate(five_hand):
+        for j, card in enumerate(swap_cards): 
+         
+    return best
 
 
 """
