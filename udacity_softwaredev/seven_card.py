@@ -4,28 +4,13 @@
 
 import itertools
 
-# [6C 6S 6H 7C 8C 9C TC] => [6C 7C 8C 9C TC] 
-# Possible solution: Try all combination for 5 cards out of 7
-# Algorithm: 
-#   1. Start at index i of the 5 hand
-#   2. Swap five_hand[i] with first card in swap card
-#   3. for j = i to eol: Swap five_hand[i] with second card in swap card
-#   4. Increate i
-#   5. Repeat 1
-
 def best_hand(hand):
     """
     From a 7-card hand, return the best
     5-card hand.
     """
-    five_hand = hand[:5] 
-    swap_cards = hand[5:]
-    best_rank, best_hand = hand_rank(five_hand), five_hand
-    for i, card in enumerate(five_hand):
-        for j, card in enumerate(swap_cards): 
-         
-    return best
-
+    return max(itertools.combinations(hand, 5), 
+               key=hand_rank)
 
 """
 Test code
@@ -41,9 +26,9 @@ def test_best_hand():
     return 'test_best_hand passes'
 
 def main():
-    print test_best_hand()
+    print(test_best_hand())
 
-""" 
+"""
 Provided functions
 """
 
@@ -97,8 +82,8 @@ def kind(n, ranks):
     """
     Return the rank that has exactly n count in hand.
     """
-    for r in hand:
-        if hand.count(r) == n:
+    for r in ranks:
+        if ranks.count(r) == n:
             return r
     return None
 
@@ -111,11 +96,11 @@ def two_pair(ranks):
     low_pair = kind(2, rev_ranks)
     if high_pair and low_pair != high_pair:
         return (high_pair, low_pair)
-    else
+    else:
         return None
 
 """
-Run 
+Run
 """
 if __name__ == '__main__':
     main()
