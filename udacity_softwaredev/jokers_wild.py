@@ -4,38 +4,20 @@ allranks = '23456789TJQKA'
 redcards = [r+s for r in allranks for s in 'DH']
 blackcards = [r+s for r in allranks for s in 'SC']
 
+def replacements(card):
+    if card == '?B': return blackcards
+    elif card == '?R': return redcards
+    else: return [card]
+
+def best_hand(hand):
+    return max(itertools.combinations(hand, 5),
+               key=hand_rank)
+
 def best_wild_hand(hand):
     "Try all values for jokers in all 5-card selections."
-    
-    # Your code here
-    hands = list(itertools.combinations(hand, 5))
-    wild_hands = set()
-    wild_hands_f = set()
-    for cards in hands:
-        if '?B' in cards:
-            i = cards.index('?B')
-            for s in 'SC':
-                for r in '23456789TJQKA':
-                    if r+s not in cards:
-                        new_cards = list(cards)
-                        new_cards[i] = r+s
-                        wild_hands.add(tuple(new_cards))
-        else:
-            wild_hands.add(cards)
-    for cards in wild_hands:
-        if '?R' in cards:
-            i = cards.index('?R')
-            for s in 'DH':
-                for r in '23456789TJQKA':
-                    if r+s not in cards:
-                        new_cards = list(cards)
-                        new_cards[i] = r+s
-                        wild_hands_f.add(tuple(new_cards))
-        else:
-            wild_hands_f.add(cards)
-    best = max(wild_hands_f, key=hand_rank)
-    print(best)
-    return best
+    jhands = set(best_hand(h) for h in \
+                 itertools.product(*map(replacements, hand)))
+    return max(jhands, key=hand_rank)
 
 def test_best_wild_hand():
     assert (sorted(best_wild_hand("6C 7C 8C 9C TC 5C ?B".split()))
@@ -110,4 +92,4 @@ def two_pair(ranks):
         return None 
 
 if __name__ == '__main__':
-    test_best_wild_hand()
+    print(test_best_wild_hand())
