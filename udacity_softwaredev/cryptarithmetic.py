@@ -40,31 +40,23 @@ ATOM**0.5 == A + TO + M
 sum(range(AA)) == BB
 PLUTO not in set([PLANETS])""".splitlines()
 
+samples = """YOU
+ME
+DRAGON
+KNIGHT""".splitlines()
+
 def test(): 
-    for puzzle in examples:
+    for puzzle in samples:
         print("Question:", puzzle)
         print("Answer:", compile_word(puzzle))
         print('')
 
 def compile_word(word):
-    """
-    Compile a word of uppercase letters as numeric digits.
-    E.g., compile_word('YOU') => '(1*U+10*O+100*Y)'
-    Non-uppercase words unchanged: compile_word('+') => '+'
-    """
-    compiled = []
-    var = []
-    for c in word:
-        if c.isupper():
-            var.append(c)
-        else:
-            if len(var) > 0:
-                compiled.append('(' + '+'.join('1' + i*'0' + '*' + ch for i, ch in enumerate(var[::-1])) + ')')
-                var.clear()
-            compiled.append(c)
-    if len(var) > 0:
-        compiled.append('(' + '+'.join('1' + i*'0' + '*' + ch for i, ch in enumerate(var[::-1])) + ')')
-    return ''.join(compiled)
+    if word.isupper():
+        formula = '+'.join('%s%s' % ('1' + i*'0' + '*', c) for i, c in enumerate(word[::-1]))
+        return '(' + formula + ')'
+    else: 
+        return word
 
 if __name__ == '__main__':
     test()
