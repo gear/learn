@@ -53,7 +53,7 @@ def test():
 
 def compile_word(word):
     if word.isupper():
-        formula = '+'.join('%s%s' % ('1' + i*'0' + '*', c) for i, c in enumerate(word[::-1]))
+        formula = '+'.join('1%s*%s' % (i*'0', c) for i, c in enumerate(word[::-1]))
         return '(' + formula + ')'
     else: 
         return word
