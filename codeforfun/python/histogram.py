@@ -10,8 +10,9 @@ def max_rect(histogram):
     max_i = max_j = 0
     for i in range(len(histogram)):
         for j in range(i, len(histogram)):
-            if area(i,j, histogram) > curr_max:
-                curr_max = area(i,j, histogram) 
+            a = area(i, j, histogram)
+            if a > curr_max:
+                curr_max = a 
                 (max_i, max_j) = (i, j)
     return (max_i, max_j, curr_max)
 
