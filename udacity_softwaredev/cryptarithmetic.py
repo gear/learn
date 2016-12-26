@@ -38,7 +38,8 @@ X / X == X
 A**N + B**N == C**N and N > 1
 ATOM**0.5 == A + TO + M
 sum(range(AA)) == BB
-PLUTO not in set([PLANETS])""".splitlines()
+PLUTO not in set([PLANETS])
+A + B == BA""".splitlines()
 
 samples = """YOU
 ME
@@ -46,9 +47,9 @@ DRAGON
 KNIGHT""".splitlines()
 
 def test(): 
-    for puzzle in samples:
+    for puzzle in examples:
         print("Question:", puzzle)
-        print("Answer:", compile_word(puzzle))
+        print("Answer:", fast_solve(puzzle))
         print('')
 
 def compile_word(word):
@@ -57,6 +58,27 @@ def compile_word(word):
         return '(' + formula + ')'
     else: 
         return word
+
+def compile_formula(formula, verbose=False):
+    letters = ''.join(set(re.findall('[A-Z]', formula)))
+    params = ', '.join(letters)
+    tokens = map(compile_word, re.split(r'([A-Z]+)', formula))
+    leading_letters = [word[0] for word in re.findall(r'[A-Z]+', formula) if len(word) > 1]
+    leading_checks = ''.join(['False if %s == 0 else ' % (i) for i in leading_letters])
+    body = ''.join(tokens)
+    f = 'lambda %s: %s' % (params, leading_checks + body)
+    if verbose: print(f)
+    return eval(f), letters
+
+def fast_solve(formula):
+    f, letters = compile_formula(formula)
+    for digits in itertools.permutations((1,2,3,4,5,6,7,8,9,0), len(letters)):
+        try:
+            if f(*digits) is True:
+                table = str.maketrans(letters, ''.join(map(str, digits)))
+                return formula.translate(table)
+        except ArithmeticError:
+            pass
 
 if __name__ == '__main__':
     test()
