@@ -1,7 +1,7 @@
 def search(pattern, text):
     """Return true if the `pattern` appears
     anywhere in the `text`."""
-    if pattern.startwith('^'):
+    if pattern.startswith('^'):
         return match(pattern[1:], text)
     else:
         return match('.*' + pattern, text)
@@ -25,3 +25,27 @@ def match(pattern, text):
     else:
         return (match1(pattern[0], text) and
                 match(pattern[1:], text[1:]))
+
+def match1(p, text):
+    """Return true if first character of text matches
+    pattern character p."""
+    if not text: return False
+    return p == '.' or p == text[0]
+
+def match_star(p, pattern, text):
+    """Return true if any number of char p,
+    followed pattern, matches text."""
+    return (match(pattern, text) or
+            (match1(p, text) and 
+            match_star(p, pattern, text[1:])))
+
+def text():
+    patterns = '$;a?;.*;a*;b*;this;mistereff;a*b*c;a$;abia$;like'.split(';')
+    text = ';a;ab;aaaaa;bbbbb;thiss;mister;aaac;baba;yfuyfabia;like'.split(';')
+    print(len(patterns))
+    print(len(text))
+    for p,t in zip(patterns,text):
+        print(p, t, search(p,t))
+
+if __name__ == '__main__':
+    text()
