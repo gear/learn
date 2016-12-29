@@ -43,6 +43,15 @@ def max_rect_faster(histogram):
             subproblems.append((min_xy_idx+1, y))
     return (i_max, j_max, g_max)
 
+def max_rect_opt(histogram):
+    ''' Return the tuple (start idx, end idx, area)
+    of the maximum rectangle in a histogram.
+    This solution implements a stack for keeping
+    track of the largest rectangle. '''
+    indices = []
+    areas = []
+
+
 def test():
     examples = [4, 5, 3, 6, 4, 2, 0, 4, 6, 4, 2, 10, 0, 13, 16, 3, 3, 5, 3, 12, 7, 9, 39, 19]
     t0 = time.time()
