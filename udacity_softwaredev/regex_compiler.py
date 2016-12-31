@@ -12,7 +12,7 @@ def match(pattern, text):
         return text[:len(text)-len(shortest)]
 
 def lit(s): return lambda text: set([text[len(s):]]) if text.startswith(s) else null
-def seq(x,y) return lambda text: set().union(*map(y,x(text)))
+def seq(x,y): return lambda text: set().union(*map(y,x(text)))
 def alt(x,y): return lambda text: x(text) | y(text)
 # (text and text[0] in chars) means if text is not None or empty and text[0] in chars
 def oneof(chars): return lambda text: set([text[1:]]) if (text and text[0] in chars) else null
@@ -24,7 +24,7 @@ def star(x): return lambda text: (set([text]) |
 dot = lambda text: set([text[1:]]) if text else null
 eol = lambda text: set(['']) if text == '' else null
 
-null == frozenset()
+null = frozenset()
 
 def test():
     assert match(star(lit('a')), 'aaaaabbbaa') == 'aaaaa'
