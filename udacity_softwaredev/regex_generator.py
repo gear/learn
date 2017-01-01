@@ -7,11 +7,14 @@
 and generate string with length specified in the
 set Ns."""
 
-def lit(s):         return lambda Ns: set([s]) if len(s) in Ns else null
+def lit(s):         
+    set_s = set([s])
+    return lambda Ns: set_s if len(s) in Ns else null
 def alt(x,y):       return lambda Ns: x(Ns) | y(Ns)
 def star(s):        return lambda Ns: opt(plus(x))(Ns)
 def plus(x):        return lambda Ns: genseq(x, star(x), Ns, start=1)
 def oneof(chars):   return lambda Ns: set().union(i for c in chars for i in lit(c)(Ns))
+# Alternate solution: ```set(chars) if 1 in Ns else null```.
 def seq(x, y):      return lambda Ns: genseq(x, y, Ns)
 def opt(x):         return alt(epsilon, x)
 dot = oneof('?')

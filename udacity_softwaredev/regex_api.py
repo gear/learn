@@ -47,7 +47,15 @@ def components(pattern):
     y = pattern[2] if len(pattern) > 2 else None
     return pattern[0], x, y
 
+def n_ary(f):
+    """Given a binary function f(x,y), return an n_ary
+    function such that f(x,y,z) = f(x, f(y,z)), etc."""
+    def n_ary_f(x, *args):
+        return x if not args else f(x, n_ary_f(*args))
+    return n_ary_f
+
 def lit(string):    return ('lit', string)
+@n_ary
 def seq(x, y):      return ('seq', x, y)
 def alt(x, y):      return ('alt', x, y)
 def star(x):        return ('star', x)
@@ -56,6 +64,7 @@ def opt(x):         return alt(lit(''), x)
 def oneof(chars):   return ('oneof', tuple(chars))
 dot = ('dot',)
 eol = ('eol',)
+
 
 def test(t_matchset=True, t_api=True, t_matchsearch=True):
     """Quick test for matchset function."""
