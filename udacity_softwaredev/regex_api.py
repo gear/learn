@@ -66,6 +66,7 @@ def n_ary(f):
 def lit(string):    return ('lit', string)
 @n_ary
 def seq(x, y):      return ('seq', x, y)
+@n_ary
 def alt(x, y):      return ('alt', x, y)
 def star(x):        return ('star', x)
 def plus(x):        return seq(x, star(x))
@@ -74,7 +75,7 @@ def oneof(chars):   return ('oneof', tuple(chars))
 dot = ('dot',)
 eol = ('eol',)
 
-def test(t_matchset=True, t_api=True, t_matchsearch=True):
+def test(t_matchset=True, t_api=True, t_matchsearch=True, t_decorator=True):
     """Quick test for matchset function."""
     if t_matchset:
         assert matchset(('lit', 'abc'), 'abcdef') == set(['def'])
@@ -94,6 +95,9 @@ def test(t_matchset=True, t_api=True, t_matchsearch=True):
         assert match(('alt', ('lit', 'b'), ('lit', 'a')), 'ab') == 'a'
         assert search(('alt', ('lit', 'b'), ('lit', 'c')), 'ab') == 'b'
         print('match and search test passes')
+    if t_decorator:
+        assert match(('seq', ('lit', 'a'), ('lit', 'b'), ('star', ('lit', 'c'))), 'abccc') == 'ab'
+        print(match(('alt', ('lit', 'a'), ('lit', 'b'), ('lit', 'c')), 'cda'))
 
 if __name__ == '__main__':
     test()
