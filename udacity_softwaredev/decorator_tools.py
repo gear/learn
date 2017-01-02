@@ -40,6 +40,11 @@ def trace(f):
     return _f
 
 
+def disabled(f): return f
+
+# When we want to disable some decorator, we can just assign the
+# decorator to disabled.
+
 @trace
 def fib(n):
     if n == 0 or n == 1:
