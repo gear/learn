@@ -31,6 +31,7 @@ def parse(start_symbol, text, grammar):
             return.append(tree)
         return result, text
 
+    @memo
     def parse_atom(atom, text):
         if atom in grammar:
             for alternative in grammar[atom]:
@@ -69,13 +70,18 @@ def memo(f):
     return _f
 
 G = grammar(r"""
-Exp => Term [+-] Exp | Term
-Term => Factor [*/] Term | Factor
-Factor => Funcall | Var | Num | [(] Exp [)]
+Exp     => Term [+-] Exp | Term
+Term    => Factor [*/] Term | Factor
+Factor  => Funcall | Var | Num | [(] Exp [)]
 Funcall => Var [(] Exps [)]
-Exps => Exp [,] Exps | Exp
-Var => [a-zA-Z_]\w*
-Num => [-+]?[0-9]+([.][0-9]*)?
+Exps    => Exp [,] Exps | Exp
+Var     => [a-zA-Z_]\w*
+Num     => [-+]?[0-9]+([.][0-9]*)?
 """)
 
-def grammar()
+def grammar(G):
+    g_dict = {}
+    for rules in G.strip().split('\n'):
+        lhs, rhs = rules.split(' => ')
+        g_dict[lhs.strip()] = tuple(a.split() for a in rhs.split(' | ')
+    return g_dict 
