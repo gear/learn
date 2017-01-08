@@ -30,5 +30,14 @@ def grammar(description, whitespace=r'\s*'):
      
 
 json_grammar = r"""
-Object => [{] Member [}] | 
+Object => [{] Members [}] | [{] [}]
+Members => Pair [,] Members | Pair
+Pair => String [:] Value
+Array => [[] Elements []] | [[] []]
+Elements => Value [,] Elements | Value
+Value => String | Number | Object | Array | True | False | Null
+String => ["] Chars ["] | ["] ["]
+Chars => Char Chars | Char
+Char => \w
+Number => -?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?
 """
