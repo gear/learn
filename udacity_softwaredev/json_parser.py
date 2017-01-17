@@ -27,7 +27,7 @@ def grammar(description, whitespace=r'\s*'):
     G = {' ': whitespace}
     description = description.replace('\t', ' ')  # no tabs
     for line in split(description, '\n'):
-        lhs, rhs = split(line, ' => ', 1)
+        lhs, rhs = split(line, ' => ', 1) # Split into list of two at most
         alternatives = split(rhs, ' | ')
         G[lhs] = tuple(map(split, alternatives))
     return G
