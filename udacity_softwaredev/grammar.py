@@ -87,7 +87,9 @@ def grammar(G, whitespace='\s*'):
     return g_dict 
 
 def test():
-    print(grammar(raw_G))
+    gram = grammar(raw_G)
+    result = parse("Exp", "4*x+100+b", gram)
+    print(result)
 
 if __name__ == '__main__':
     test()

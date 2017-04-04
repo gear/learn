@@ -36,7 +36,7 @@ def match_star(p, pattern, text):
     """Return true if any number of char p,
     followed pattern, matches text."""
     return (match(pattern, text) or
-            (match1(p, text) and 
+            (match1(p, text) and
             match_star(p, pattern, text[1:])))
 
 def text():
