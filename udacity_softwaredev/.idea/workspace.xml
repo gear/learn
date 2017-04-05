@@ -2,9 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="27d129d0-894e-411c-8df7-47f8f01f9b6b" name="Default" comment="">
-      <change type="DELETED" beforePath="$PROJECT_DIR$/regex.py" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/grammar.py" afterPath="$PROJECT_DIR$/grammar.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/json_parser.py" afterPath="$PROJECT_DIR$/json_parser.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/inverse_function.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -19,11 +18,11 @@
   <component name="ExecutionTargetManager" SELECTED_TARGET="default_target" />
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="json_parser.py" pinned="false" current-in-tab="true">
+      <file leaf-file-name="json_parser.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/json_parser.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="440">
-              <caret line="127" column="0" lean-forward="true" selection-start-line="127" selection-start-column="0" selection-end-line="127" selection-end-column="0" />
+            <state relative-caret-position="485">
+              <caret line="130" column="10" lean-forward="true" selection-start-line="130" selection-start-column="10" selection-end-line="130" selection-end-column="10" />
               <folding>
                 <element signature="e#50#86#0" expanded="true" />
               </folding>
@@ -31,7 +30,24 @@
           </provider>
         </entry>
       </file>
+      <file leaf-file-name="inverse_function.py" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/inverse_function.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="75">
+              <caret line="5" column="4" lean-forward="false" selection-start-line="5" selection-start-column="4" selection-end-line="5" selection-end-column="4" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
     </leaf>
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Python Script" />
+      </list>
+    </option>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
@@ -41,6 +57,8 @@
       <list>
         <option value="$PROJECT_DIR$/grammar.py" />
         <option value="$PROJECT_DIR$/json_parser.py" />
+        <option value="$PROJECT_DIR$/json_parser_online_ver.py" />
+        <option value="$PROJECT_DIR$/inverse_function.py" />
       </list>
     </option>
   </component>
@@ -50,7 +68,9 @@
     <option name="width" value="1220" />
     <option name="height" value="1000" />
   </component>
-  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
   <component name="ProjectView">
     <navigator currentView="ProjectPane" proportions="" version="1">
       <flattenPackages />
@@ -88,8 +108,8 @@
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
   </component>
-  <component name="RunManager" selected="Python.json_parser">
-    <configuration default="false" name="json_parser" type="PythonConfigurationType" factoryName="Python" temporary="true">
+  <component name="RunManager" selected="Python.json_parser_online_ver">
+    <configuration default="false" name="json_parser_online_ver" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
       <envs>
@@ -101,7 +121,7 @@
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <module name="udacity_softwaredev" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/json_parser.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/json_parser_online_ver.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <method />
@@ -257,13 +277,31 @@
       <option name="SHOW_COMMAND_LINE" value="false" />
       <method />
     </configuration>
-    <list size="2">
+    <configuration default="false" name="json_parser" type="PythonConfigurationType" factoryName="Python">
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <module name="udacity_softwaredev" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/json_parser.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <method />
+    </configuration>
+    <list size="3">
       <item index="0" class="java.lang.String" itemvalue="Python.grammar" />
       <item index="1" class="java.lang.String" itemvalue="Python.json_parser" />
+      <item index="2" class="java.lang.String" itemvalue="Python.json_parser_online_ver" />
     </list>
     <recent_temporary>
       <list size="1">
-        <item index="0" class="java.lang.String" itemvalue="Python.json_parser" />
+        <item index="0" class="java.lang.String" itemvalue="Python.json_parser_online_ver" />
       </list>
     </recent_temporary>
   </component>
@@ -289,7 +327,7 @@
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="true" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.1532787" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.32972974" sideWeight="0.49016392" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.32972974" sideWeight="0.49016392" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
@@ -344,13 +382,29 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/json_parser_online_ver.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="210">
+          <caret line="20" column="0" lean-forward="true" selection-start-line="20" selection-start-column="0" selection-end-line="20" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/json_parser.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="440">
-          <caret line="127" column="0" lean-forward="true" selection-start-line="127" selection-start-column="0" selection-end-line="127" selection-end-column="0" />
+        <state relative-caret-position="485">
+          <caret line="130" column="10" lean-forward="true" selection-start-line="130" selection-start-column="10" selection-end-line="130" selection-end-column="10" />
           <folding>
             <element signature="e#50#86#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/inverse_function.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="75">
+          <caret line="5" column="4" lean-forward="false" selection-start-line="5" selection-start-column="4" selection-end-line="5" selection-end-column="4" />
+          <folding />
         </state>
       </provider>
     </entry>
