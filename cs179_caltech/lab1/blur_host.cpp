@@ -169,6 +169,7 @@ int large_gauss_test(int argc, char **argv) {
     // TODO: Allocate memory on the GPU here. Note that the audio data comes in
     // as floating-point values, the number of which is stored in N.
     float *dev_input_data;
+    cudaMalloc((void **) &dev_input_data, sizeof(float)*n_frames);
 
     // We have to store our impulse response on the GPU as well. (Fun fact:
     // Later in the class, we'll see that we can store small, often-used
@@ -181,9 +182,12 @@ int large_gauss_test(int argc, char **argv) {
     // the audio channels, we can copy over this data now as well.
     // Copy the impulse response from host memory to the GPU.
     float *dev_blur_v;
+    cudaMalloc((void**) &dev_blur_v, sizeof(float)*GAUSSIAN_SIZE);
+    cudaMemcpy(dev_blur_v, blur_v, sizeof(float)*GAUSSIAN_SIZE, cudaMemcpyHostToDevice);
 
     // TODO: Allocate memory on the GPU here to store the output  audio signal.
     float *dev_out_data;
+    cudaMalloc((void **) &dev_out_data, sizeof(float)*n_frames);
 
 
     // Iterate through each audio channel (e.g. 2 iterations for  stereo files)
@@ -303,7 +307,7 @@ int large_gauss_test(int argc, char **argv) {
 
         // Write output audio data to multichannel array
     #if AUDIO_ON
-        for (int i = 0; i < n_frames; i++){
+        for (int i = 0; i < n_frames; i++) {
             all_channel_output[i * n_channels + ch] = output_data[i];
         }
     #endif
