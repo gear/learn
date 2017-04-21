@@ -15,10 +15,6 @@ __global__
 void cudaBlurKernel(const float *raw_data, const float *blur_v, float *out_data,
     int n_frames, int blur_v_size) {
 
-    // TODO: Fill in the implementation for the GPU-accelerated convolution. 
-    //
-    // It may be helpful to use the information in the lecture slides, as well
-    // as the CPU implementation, as a reference.
 }
 
 
