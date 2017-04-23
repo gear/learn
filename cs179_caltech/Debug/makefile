@@ -9,6 +9,7 @@ RM := rm -rf
 # All of the sources participating in the build are defined here
 -include sources.mk
 -include subdir.mk
+-include test/subdir.mk
 -include lab1/subdir.mk
 
 OS_SUFFIX := $(subst Linux,linux,$(subst Darwin/x86_64,darwin,$(shell uname -s)/$(shell uname -m)))
@@ -58,7 +59,7 @@ all: cs179_caltech
 cs179_caltech: $(OBJS) $(USER_OBJS)
 	@echo 'Building target: $@'
 	@echo 'Invoking: NVCC Linker'
-	/usr/local/cuda-8.0/bin/nvcc --cudart static --relocatable-device-code=true -gencode arch=compute_52,code=compute_52 -gencode arch=compute_52,code=sm_52 -m64 -link -o  "cs179_caltech" $(OBJS) $(USER_OBJS) $(LIBS)
+	/usr/local/cuda-8.0/bin/nvcc --cudart static --relocatable-device-code=true -gencode arch=compute_20,code=compute_20 -gencode arch=compute_20,code=sm_20 -link -o  "cs179_caltech" $(OBJS) $(USER_OBJS) $(LIBS)
 	@echo 'Finished building target: $@'
 	@echo ' '
 

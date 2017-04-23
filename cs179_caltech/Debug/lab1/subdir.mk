@@ -24,16 +24,16 @@ CPP_DEPS += \
 lab1/%.o: ../lab1/%.cu
 	@echo 'Building file: $<'
 	@echo 'Invoking: NVCC Compiler'
-	/usr/local/cuda-8.0/bin/nvcc -G -g -O0 -gencode arch=compute_52,code=sm_52 -m64 -odir "lab1" -M -o "$(@:%.o=%.d)" "$<"
-	/usr/local/cuda-8.0/bin/nvcc -G -g -O0 --compile --relocatable-device-code=true -gencode arch=compute_52,code=compute_52 -gencode arch=compute_52,code=sm_52 -m64  -x cu -o  "$@" "$<"
+	/usr/local/cuda-8.0/bin/nvcc -G -g -O0 -gencode arch=compute_20,code=sm_20  -odir "lab1" -M -o "$(@:%.o=%.d)" "$<"
+	/usr/local/cuda-8.0/bin/nvcc -G -g -O0 --compile --relocatable-device-code=true -gencode arch=compute_20,code=compute_20 -gencode arch=compute_20,code=sm_20  -x cu -o  "$@" "$<"
 	@echo 'Finished building: $<'
 	@echo ' '
 
 lab1/%.o: ../lab1/%.cpp
 	@echo 'Building file: $<'
 	@echo 'Invoking: NVCC Compiler'
-	/usr/local/cuda-8.0/bin/nvcc -G -g -O0 -gencode arch=compute_52,code=sm_52 -m64 -odir "lab1" -M -o "$(@:%.o=%.d)" "$<"
-	/usr/local/cuda-8.0/bin/nvcc -G -g -O0 --compile -m64  -x c++ -o  "$@" "$<"
+	/usr/local/cuda-8.0/bin/nvcc -G -g -O0 -gencode arch=compute_20,code=sm_20  -odir "lab1" -M -o "$(@:%.o=%.d)" "$<"
+	/usr/local/cuda-8.0/bin/nvcc -G -g -O0 --compile  -x c++ -o  "$@" "$<"
 	@echo 'Finished building: $<'
 	@echo ' '
 
