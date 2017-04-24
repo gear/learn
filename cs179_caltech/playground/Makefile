@@ -1,9 +1,9 @@
 CUDA_ROOT ?= /usr/local/cuda-8.0
 NVCC ?= $(CUDA_ROOT)/bin/nvcc
 CC := /usr/bin/g++
-LD_CUDA_FLAGS ?= -lcudart
-CUDA_INCLUDE ?= $(CUDA_ROOT)/include
-CUDA_LIBRARY ?= $(CUDA_ROOT)/lib64
+LD_CUDA_FLAGS := -lcudart
+CUDA_INCLUDE := $(CUDA_ROOT)/include
+CUDA_LIBRARY := $(CUDA_ROOT)/lib64
 
 TARGETS = print_threads
 all: $(TARGETS)

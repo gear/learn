@@ -32,9 +32,9 @@ float gaussian(float x, float mean, float std) {
 }
 
 /*
- * NOTE: You can use this macro to easily check cuda error codes 
- * and get more information. 
- * 
+ * NOTE: You can use this macro to easily check cuda error codes
+ * and get more information.
+ *
  * Modified from:
  * http://stackoverflow.com/questions/14038589/
  *   what-is-the-canonical-way-to-check-for-errors-using-the-cuda-runtime-api
@@ -73,8 +73,8 @@ void check_args(int argc, char **argv) {
 /*
  * Reads in audio data (alternatively, generates random data), and convolves
  * each channel with the specified filtering function h[n], producing output
- * data. 
- * 
+ * data.
+ *
  * Uses both CPU and GPU implementations, and compares the results.
  */
 int large_gauss_test(int argc, char **argv) {
@@ -205,12 +205,12 @@ int large_gauss_test(int argc, char **argv) {
         	// Zero padding
             for (int i = 0; i < GAUSSIAN_SIZE; i++) {
                 for (int j = 0; j <= i; j++)
-                    output_data_host[i] += input_data[i - j] * blur_v[j]; 
+                    output_data_host[i] += input_data[i - j] * blur_v[j];
             }
             // Full convolution
             for (int i = GAUSSIAN_SIZE; i < n_frames; i++) {
                 for (int j = 0; j < GAUSSIAN_SIZE; j++)
-                    output_data_host[i] += input_data[i - j] * blur_v[j]; 
+                    output_data_host[i] += input_data[i - j] * blur_v[j];
             }
         }
 
@@ -235,7 +235,7 @@ int large_gauss_test(int argc, char **argv) {
         cudaEventRecord(start_gpu);
 
         // Copy input to GPU
-        cudaMemcpy(dev_input_data, input_data, n_frames, cudaMemcpyHostToDevice);
+        cudaMemcpy(dev_input_data, input_data, n_frames*sizeof(float), cudaMemcpyHostToDevice);
         cudaCallBlurKernel(blocks, local_size, dev_input_data, dev_blur_v,
             dev_out_data, n_frames, GAUSSIAN_SIZE);
 
@@ -247,11 +247,7 @@ int large_gauss_test(int argc, char **argv) {
         else
             cerr << "No kernel error detected" << endl;
 
-
-        // TODO: Now that kernel calls have finished, copy the output signal
-        // back from the GPU to host memory. (We store this channel's result
-        // in output_data on the host.)
-        
+        cudaMemcpy(output_data, dev_out_data, n_frames*sizeof(float), cudaMemcpyDeviceToHost);
 
         // Stop timer
         cudaEventRecord(stop_gpu);
@@ -264,7 +260,7 @@ int large_gauss_test(int argc, char **argv) {
         for (int i = 0; i < n_frames; i++) {
             if (fabs(output_data_host[i] - output_data[i]) < 1e-6) {
             #if 0
-                cout << "Correct output at index " << i << ": " << output_data_host[i] << ", " 
+                cout << "Correct output at index " << i << ": " << output_data_host[i] << ", "
                     << output_data[i] << endl;
             #endif
             }
@@ -320,7 +316,7 @@ int large_gauss_test(int argc, char **argv) {
         exit(EXIT_FAILURE);
     }
 
-    sf_write_float(out_file, all_channel_output, amt_read); 
+    sf_write_float(out_file, all_channel_output, amt_read);
     sf_close(in_file);
     sf_close(out_file);
 
@@ -333,5 +329,3 @@ int large_gauss_test(int argc, char **argv) {
 int main(int argc, char **argv) {
     return large_gauss_test(argc, argv);
 }
-
-
