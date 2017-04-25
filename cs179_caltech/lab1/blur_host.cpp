@@ -153,6 +153,7 @@ int large_gauss_test(int argc, char **argv) {
     int n_frames = 1e7;
 #endif
 
+    printf("Data length: %d elements.\n", n_frames);
 
     // Per-channel input data
     float *input_data = (float *) malloc(sizeof (float) * n_frames);
@@ -247,6 +248,7 @@ int large_gauss_test(int argc, char **argv) {
         else
             cerr << "No kernel error detected" << endl;
 
+        // Copy output result from GPU
         cudaMemcpy(output_data, dev_out_data, n_frames*sizeof(float), cudaMemcpyDeviceToHost);
 
         // Stop timer
