@@ -73,25 +73,46 @@ Consider each of the following access patterns.
 
 (a)
 ```cpp
-data[threadIdx.x + blockSize.x * threadIdx.y] = 1.0;
+data[threadIdx.x + blockDim.x * threadIdx.y] = 1.0;
 ```
 Is this write coalesced? How many 128 byte cache lines does this write to?
+
+_Answer_:
+
+Memory access in this code is coalesced. Each warp of 32 threads handles exactly
+32 consecutive floats in `data`. Each float is 32-bit or 4-bytes, hence each
+warp writes to exactly one 128-bytes cache line. Since the block has 32 warps,
+this code writes to 32 128-bytes cache lines.
 
 (b)
 ```cpp
-data[threadIdx.y + blockSize.y * threadIdx.x] = 1.0;
+data[threadIdx.y + blockDim.y * threadIdx.x] = 1.0;
 ```
 
 Is this write coalesced? How many 128 byte cache lines does this write to?
 
+_Answer_:
+
+This code is non-coalesced due to each thread in a warp writes to different
+128-bytes cache lines. Each warp writes to 32 128-bytes cache lines.
+
+
 (c)
-data[1 + threadIdx.x + blockSize.x * threadIdx.y] = 1.0;
+```cpp
+data[1 + threadIdx.x + blockDim.x * threadIdx.y] = 1.0;
+```
 
 Is this write coalesced? How many 128 byte cache lines does this write to?
 
+_Answer_:
 
-Question 1.4: Bank Conflicts and Instruction Dependencies (15 points)
----------------------------------------------------------------------
+This code is non-coalesced and possibly error prone. Since the data is aligned,
+each thread in a warp will read 31 values from one cache line and read one more
+float (4 bytes) from the next cache line, causing total of 2 128-bytes cache
+lines writes per warp. Since the minimum number of cache line access is 1, this
+code is non-coalesced.
+
+### Question 1.4: Bank Conflicts and Instruction Dependencies (15 points)
 
 Let's consider multiplying a 32 x 128 matrix with a 128 x 32 element matrix.
 This outputs a 32 x 32 matrix. We'll use 32 ** 2 = 1024 threads and each thread
@@ -108,22 +129,34 @@ This kernel will write to a variable called output stored in shared memory.
 
 Consider the following kernel code:
 
+```cpp
 int i = threadIdx.x;
 int j = threadIdx.y;
 for (int k = 0; k < 128; k += 2) {
+    // Loop unrolling technique
     output[i + 32 * j] += lhs[i + 32 * k] * rhs[k + 128 * j];
     output[i + 32 * j] += lhs[i + 32 * (k + 1)] * rhs[(k + 1) + 128 * j];
 }
+```
 
 (a)
 Are there bank conflicts in this code? If so, how many ways is the bank conflict
 (2-way, 4-way, etc)?
 
+_Answer_:
+
+Since the number of elements in `output`, `lsh`, and `rhs` is a multiple of 32,
+it is safe to assume that the first element of these matrices belongs to bank 0.  
+Consider the first warp: `threadIdx.x = [0..31]`, `threadIdx.y = 0`. Each for
+loop is considered
+
 (b)
 Expand the inner part of the loop (below)
 
+```cpp
 output[i + 32 * j] += lhs[i + 32 * k] * rhs[k + 128 * j];
 output[i + 32 * j] += lhs[i + 32 * (k + 1)] * rhs[(k + 1) + 128 * j];
+```
 
 into "psuedo-assembly" as was done in the coordinate addition example in lecture
 4.
@@ -170,9 +203,9 @@ The main method of transpose.cc already checks for correctness for all transpose
 results, so there should be an assertion failure if your kernel produces incorrect
 output.
 
-The purpose of the shmemTransposeKernel is to demonstrate proper usage of global
-and shared memory. The optimalTransposeKernel should be built on top of
-shmemTransposeKernel and should incorporate any "tricks" such as ILP, loop
+The purpose of the `shmemTransposeKernel` is to demonstrate proper usage of global
+and shared memory. The `optimalTransposeKernel` should be built on top of
+`shmemTransposeKernel` and should incorporate any "tricks" such as ILP, loop
 unrolling, vectorized IO, etc that have been discussed in class.
 
 You can compile and run the code by running
