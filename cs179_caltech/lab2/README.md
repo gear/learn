@@ -112,7 +112,7 @@ float (4 bytes) from the next cache line, causing total of 2 128-bytes cache
 lines writes per warp. Since the minimum number of cache line access is 1, this
 code is non-coalesced.
 
-### Question 1.4: Bank Conflicts and Instruction Dependencies (15 points)
+### Question 1.4: Bank Conflicts and Instruction Dependencies
 
 Let's consider multiplying a 32 x 128 matrix with a 128 x 32 element matrix.
 This outputs a 32 x 32 matrix. We'll use 32 ** 2 = 1024 threads and each thread
@@ -147,8 +147,23 @@ _Answer_:
 
 Since the number of elements in `output`, `lsh`, and `rhs` is a multiple of 32,
 it is safe to assume that the first element of these matrices belongs to bank 0.  
-Consider the first warp: `threadIdx.x = [0..31]`, `threadIdx.y = 0`. Each for
-loop is considered
+Consider the first warp: `threadIdx.x = [0..31]`, `threadIdx.y = 0`. For each
+for loop, the memory bank access of threads in the first warp is given as:
+
+| Mem \ Thread | 0 | 1 | 2 | ... | i |
+| :------------- |:-:|:-:|:-:|:---:|:-:|
+| `lhs[i + k * 32]` | 0 | 1 | 2 | ... | i |
+| `rhs[k + j * 128]` | k | k | k | ... | k |
+| `output[i + 32 * j]` | 0 | 1 | 2 | ... | i |
+
+We can see here each thread access different memory bank for `lhs` and `output`.
+All threads accesses the same memory address of bank `k` for `rhs`. For
+example, if `k = 5`, all thread accesses `rhs[5]` (belongs to bank 5). Here,
+bank 5 has also been accessed by thread 5 to read `lhs` and `output`. However,
+since the same element is accessed by all thread from bank 5, bank conflict does
+not occur. The behavior of the second line is exactly the same as the first line
+of code. Hence, no bank conflict.
+
 
 (b)
 Expand the inner part of the loop (below)
@@ -168,8 +183,29 @@ instruction in your "psuedo-assembly".
 
 Hint: Each line should expand to 5 instructions.
 
+_Answer_:
+
+```cpp
+ 1| lhs_i_k = lsh[i + 32 * k];              // LOAD
+ 2| rhs_k_j = rhs[k + 128 * j];             // LOAD
+ 3| output_i_j = output[i + 32 * j];        // LOAD
+ 4| r = lhs_i_k * rhs_k_j + output_j_j;     // FMA
+ 5| output[i + 32 * j] = r;                 // STORE
+ 6|
+ 7| lhs_i_k_1 = lhs[i + 32 * (k+1)];        // LOAD
+ 8| rhs_k_1_j = rhs[(k+1) + 128 * j];       // LOAD
+ 9| output_i_j = output[i + 32 * j];        // LOAD
+10| r = lsh_i_k_1 * rhs_k_1_j + output_i_j; // FMA
+11| output[i + 32 * j] = r;                 // STORE
+```
+
 (c)
 Identify pairs of dependent instructions in your answer to part b.
+
+_Answer_:
+
+Pairs of dependent instructions: (4,3), (4,2), (4,1), (5,4), (9,5), (10,9),
+(10,8), (10,7), (11,10).
 
 (d)
 Rewrite the code given at the beginning of this problem to minimize instruction
@@ -177,15 +213,30 @@ dependencies. You can add or delete instructions (deleting an instruction is a
 valid way to get rid of a dependency!) but each iteration of the loop must still
 process 2 values of k.
 
+_Answer_:
+
+```cpp
+int i = threadIdx.x;
+int j = threadIdx.y;
+for (int k = 0; k < 128; k += 2) {
+    // Loop unrolling technique
+    x = lhs[i + 32 * k] * rhs[k + 128 * j];
+    y = lhs[i + 32 * (k + 1)] * rhs[(k + 1) + 128 * j];
+    output[i + 32 * j] += x + y;
+}
+```
+
 (e)
 Can you think of any other anything else you can do that might make this code
 run faster?
 
+_Answer_:
 
+We can explicitly write each load instruction so they are stored in the
+registers, but this task might already be done by the compiler. On the other
+hand, we can unroll the loop by 4 or 8 to avoid instruction dependencies.
 
-
-PART 2 - Matrix transpose optimization (65 points)
---------------------------------------------------
+### PART 2 - Matrix transpose optimization
 
 Optimize the CUDA matrix transpose implementations in transpose_cuda.cu. Read
 ALL of the TODO comments. Matrix transpose is a common exercise in GPU
