@@ -11,7 +11,7 @@
 /*
  * NOTE: You can use this macro to easily check cuda error codes
  * and get more information.
- * 
+ *
  * Modified from:
  * http://stackoverflow.com/questions/14038589/
  *         what-is-the-canonical-way-to-check-for-errors-using-the-cuda-runtime-api
@@ -41,7 +41,6 @@ void checkTransposed(const float *a, const float *b, int n) {
             }
         }
     }
-
     assert(correct);
 }
 
@@ -67,17 +66,17 @@ void randomFill(float *fill, int size) {
 
 int main(int argc, char *argv[]) {
 
-    // These functions allow you to select the least utilized GPU 
+    // These functions allow you to select the least utilized GPU
     // on your system as well as enforce a time limit on program execution.
     // Please leave these enabled as a courtesy to your fellow classmates
-    // if you are using a shared computer. You may ignore or remove these 
+    // if you are using a shared computer. You may ignore or remove these
     // functions if you are running on your local machine.
     TA_Utilities::select_coldest_GPU();
     int max_time_allowed_in_seconds = 10;
     TA_Utilities::enforce_time_limit(max_time_allowed_in_seconds);
-    
+
     // Seed random number generator
-    srand(2016);
+    srand(2017);
 
     std::string kernel = "all";
     int size_to_run = -1;
@@ -106,7 +105,7 @@ int main(int argc, char *argv[]) {
         kernel == "shmem"      ||
         kernel == "optimal");
 
-    // Run the transpose implementations for all desired sizes (2^9 = 512, 
+    // Run the transpose implementations for all desired sizes (2^9 = 512,
     // 2^12 = 4096)
     for (int _i = 9; _i < 13; _i++) {
         int n = 1 << _i;
@@ -153,7 +152,7 @@ int main(int argc, char *argv[]) {
         randomFill(input, n * n);
 
         // Copy input to GPU
-        gpuErrChk(cudaMemcpy(d_input, input, n * n * sizeof(float), 
+        gpuErrChk(cudaMemcpy(d_input, input, n * n * sizeof(float),
             cudaMemcpyHostToDevice));
 
 
@@ -186,7 +185,7 @@ int main(int argc, char *argv[]) {
             cudaTranspose(d_input, d_output, n, NAIVE);
             STOP_RECORD_TIMER(naive_gpu_ms);
 
-            gpuErrChk(cudaMemcpy(output, d_output, n * n * sizeof(float), 
+            gpuErrChk(cudaMemcpy(output, d_output, n * n * sizeof(float),
                 cudaMemcpyDeviceToHost));
             checkTransposed(input, output, n);
 
@@ -202,7 +201,7 @@ int main(int argc, char *argv[]) {
             cudaTranspose(d_input, d_output, n, SHMEM);
             STOP_RECORD_TIMER(shmem_gpu_ms);
 
-            gpuErrChk(cudaMemcpy(output, d_output, n * n * sizeof(float), 
+            gpuErrChk(cudaMemcpy(output, d_output, n * n * sizeof(float),
                 cudaMemcpyDeviceToHost));
             checkTransposed(input, output, n);
 
@@ -218,7 +217,7 @@ int main(int argc, char *argv[]) {
             cudaTranspose(d_input, d_output, n, OPTIMAL);
             STOP_RECORD_TIMER(optimal_gpu_ms);
 
-            gpuErrChk(cudaMemcpy(output, d_output, n * n * sizeof(float), 
+            gpuErrChk(cudaMemcpy(output, d_output, n * n * sizeof(float),
                 cudaMemcpyDeviceToHost));
             checkTransposed(input, output, n);
 

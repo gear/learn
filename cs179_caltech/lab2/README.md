@@ -1,7 +1,5 @@
 # CS179 - GPU Programming Lab2
 
----
-
 ## PART 1
 
 ### Question 1.1: Latency Hiding
@@ -241,7 +239,7 @@ hand, we can unroll the loop by 4 or 8 to avoid instruction dependencies.
 Optimize the CUDA matrix transpose implementations in transpose_cuda.cu. Read
 ALL of the TODO comments. Matrix transpose is a common exercise in GPU
 optimization, so do not search for existing GPU matrix transpose code on the
-internet.
+Internet.
 
 Your transpose code only need to be able to transpose square matrices where the
 side length is a multiple of 64.
@@ -295,11 +293,12 @@ Copy paste the output of ./transpose.cc into README.txt once you are done.
 Describe the strategies used for performance in either block comments over the
 kernel (as done for naiveTransposeKernel) or in README.txt.
 
+_Answer_:
+
+Output from the console:
 
 
-
-BONUS (+5 points, maximum set score is 100 even with bonus)
---------------------------------------------------------------------------------
+### BONUS
 
 Mathematical scripting environments such as Matlab or Python + Numpy often
 encourage expressing algorithms in terms of vector operations because they offer
@@ -308,10 +307,12 @@ vectors (a and b) in Numpy with c = a + b.
 
 This is often implemented with something like the following code:
 
+```cpp
 void vec_add(float *left, float *right, float *out, int size) {
     for (int i = 0; i < size; i++)
         out[i] = left[i] + right[i];
 }
+```
 
 Consider the code
 
