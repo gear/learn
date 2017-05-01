@@ -41,18 +41,13 @@ void naiveTransposeKernel(const float *input, float *output, int n) {
 
     for (; j < end_j; j++)
         output[j + n * i] = input[i + n * j];
-        
-    /* Thread layout in a warp: threadIdx.y - threadIdx.x
-    0 - 0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15
-    1 - 0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15
-    Memory bank:
-    - input: 2-ways bank conflict
-    0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15
-    0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15
-    - output: 16-ways bank conflict
-    (0,1,2,3) (0,1,2,3) (0,1,2,3) ... (0,1,2,3)
-    (4,5,6,7) (4,5,6,7) (4,5,6,7) ... (4,5,6,7)
-    */
+    /* Since the naive kernel doesn't use shared memory, we do not have
+     * to worry about bank conflict. The remaining problem is data alignment.
+     * Each warp handles 32*4 = 128 4-bytes elements, hence there is minimum
+     * of 4 cache reads. However, in here, due to the fact that n >= 512,
+     * each thread in a warp reads from 5 cache lines. A warp read 160 cache
+     * lines. 
+     */
 }
 
 __global__
