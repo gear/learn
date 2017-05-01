@@ -12,6 +12,7 @@ int length(struct Node* node_ptr) {
     return 1 + length(node_ptr->next);
 }
 
+/* Can return by reference */
 int search(struct Node* head, int query_data) {
   /* Return the distance of the element to head */
   int dist = 0;
@@ -32,6 +33,10 @@ void push(struct Node** ref, int data) {
   new_node->data = data;
   new_node->next = *ref;
   *ref = new_node;
+}
+
+struct Node& get(struct Node* HEAD, int loc, bool reversed=false) {
+
 }
 
 int main() {

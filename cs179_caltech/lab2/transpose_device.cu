@@ -35,14 +35,24 @@
  */
 __global__
 void naiveTransposeKernel(const float *input, float *output, int n) {
-    // TODO: do not modify code, just comment on suboptimal accesses
-
     const int i = threadIdx.x + 64 * blockIdx.x;
     int j = 4 * threadIdx.y + 64 * blockIdx.y;
     const int end_j = j + 4;
 
     for (; j < end_j; j++)
         output[j + n * i] = input[i + n * j];
+        
+    /* Thread layout in a warp: threadIdx.y - threadIdx.x
+    0 - 0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15
+    1 - 0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15
+    Memory bank:
+    - input: 2-ways bank conflict
+    0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15
+    0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15
+    - output: 16-ways bank conflict
+    (0,1,2,3) (0,1,2,3) (0,1,2,3) ... (0,1,2,3)
+    (4,5,6,7) (4,5,6,7) (4,5,6,7) ... (4,5,6,7)
+    */
 }
 
 __global__
