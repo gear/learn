@@ -45,8 +45,8 @@ void naiveTransposeKernel(const float *input, float *output, int n) {
      * to worry about bank conflict. The remaining problem is data alignment.
      * Each warp handles 32*4 = 128 4-bytes elements, hence there is minimum
      * of 4 cache reads. However, in here, due to the fact that n >= 512,
-     * each thread in a warp reads from 5 cache lines. A warp read 160 cache
-     * lines. 
+     * each thread in a warp reads from 5 cache lines. A warp reads 160 cache
+     * lines.
      */
 }
 
