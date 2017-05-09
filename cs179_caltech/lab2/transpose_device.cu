@@ -52,19 +52,20 @@ void naiveTransposeKernel(const float *input, float *output, int n) {
 
 __global__
 void shmemTransposeKernel(const float *input, float *output, int n) {
-    // TODO: Modify transpose kernel to use shared memory. All global memory
-    // reads and writes should be coalesced. Minimize the number of shared
-    // memory bank conflicts (0 bank conflicts should be possible using
-    // padding). Again, comment on all sub-optimal accesses.
 
-    // __shared__ float data[???];
+    __shared__ float data[64*64];
+    int s_i = 0;
 
     const int i = threadIdx.x + 64 * blockIdx.x;
     int j = 4 * threadIdx.y + 64 * blockIdx.y;
     const int end_j = j + 4;
 
-    for (; j < end_j; j++)
-        output[j + n * i] = input[i + n * j];
+    for (int jj = j; jj < end_j; jj++)
+        data[s_i++] = input[i + n * jj];
+    __syncthreads();
+
+    for (int jj = j; jj < end_j; jj++)
+        output[jj + n * i] = data[--s_i];
 }
 
 __global__
