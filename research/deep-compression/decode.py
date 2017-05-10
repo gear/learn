@@ -77,7 +77,7 @@ def binary_to_net(weights, spm_stream, ind_stream, codebook, num_nz):
     else:
         print "Not impemented,", bits
         sys.exit()
-    code = np.zeros(weights.size, np.uint8) 
+    code = np.zeros(weights.size, np.uint8)
 
     # Recover from binary stream
     spm = np.zeros(num_nz, np.uint8)
@@ -87,8 +87,8 @@ def binary_to_net(weights, spm_stream, ind_stream, codebook, num_nz):
         spm[np.arange(1, num_nz, 2)] = spm_stream / (2**4)
     else:
         spm = spm_stream
-    ind[np.arange(0, num_nz, 2)] = ind_stream% (2**4)
-    ind[np.arange(1, num_nz, 2)] = ind_stream/ (2**4)
+    ind[np.arange(0, num_nz, 2)] = ind_stream % (2**4)
+    ind[np.arange(1, num_nz, 2)] = ind_stream / (2**4)
 
 
     # Recover the matrix

@@ -42,7 +42,7 @@ void naiveTransposeKernel(const float *input, float *output, int n) {
     for (; j < end_j; j++)
         output[j + n * i] = input[i + n * j];
     /* Since the naive kernel doesn't use shared memory, we do not have
-     * to worry about bank conflict. The remaining problem is data alignment.
+     * bank conflict. The remaining problem is data alignment.
      * Each warp handles 32*4 = 128 4-bytes elements, hence there is minimum
      * of 4 cache reads. However, in here, due to the fact that n >= 512,
      * each thread in a warp reads from 5 cache lines. A warp reads 160 cache
@@ -52,19 +52,22 @@ void naiveTransposeKernel(const float *input, float *output, int n) {
 
 __global__
 void shmemTransposeKernel(const float *input, float *output, int n) {
-    // TODO: Modify transpose kernel to use shared memory. All global memory
-    // reads and writes should be coalesced. Minimize the number of shared
-    // memory bank conflicts (0 bank conflicts should be possible using
-    // padding). Again, comment on all sub-optimal accesses.
 
-    // __shared__ float data[???];
+    __shared__ float data[64*64];
+    int s_i = threadIdx.x;
+    int s_j = threadIdx.y * 4;
+    int s_idx = s_j + s_i * 16;
 
     const int i = threadIdx.x + 64 * blockIdx.x;
     int j = 4 * threadIdx.y + 64 * blockIdx.y;
     const int end_j = j + 4;
 
-    for (; j < end_j; j++)
-        output[j + n * i] = input[i + n * j];
+    for (int jj = j; jj < end_j; jj++)
+        data[s_i++] = input[i + n * jj];
+    __syncthreads();
+
+    for (int jj = j; jj < end_j; jj++)
+        output[jj + n * i] = data[--s_i];
 }
 
 __global__
