@@ -65,7 +65,10 @@ layers = filter(lambda x:'conv' in x or 'fc' in x or 'ip' in x, net.params.keys(
 
 fin = open(net_bin, 'rb')
 
+ii = 0
+
 def binary_to_net(weights, spm_stream, ind_stream, codebook, num_nz):
+    global ii
     bits = np.log2(codebook.size)
     if bits == 4:
         slots = 2
@@ -92,6 +95,8 @@ def binary_to_net(weights, spm_stream, ind_stream, codebook, num_nz):
     ind = np.cumsum(ind+1)-1
     code[ind] = spm
     data = np.reshape(codebook[code], weights.shape)
+    np.save(layers[ii] + '.npy', data)
+    ii += 1
     np.copyto(weights, data)
     encoded_data = code.reshape(weights.shape)
     return encoded_data
