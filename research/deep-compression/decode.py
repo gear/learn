@@ -93,8 +93,11 @@ def binary_to_net(weights, spm_stream, ind_stream, codebook, num_nz):
     code[ind] = spm
     data = np.reshape(codebook[code], weights.shape)
     np.copyto(weights, data)
+    encoded_data = code.reshape(weights.shape)
+    return encoded_data
 
 nz_num = np.fromfile(fin, dtype = np.uint32, count = len(layers))
+encoded_weights = {}
 for idx, layer in enumerate(layers):
     # print "Reconstruct layer", layer
     # print "Total Non-zero number:", nz_num[idx]
@@ -104,13 +107,19 @@ for idx, layer in enumerate(layers):
         bits = 4
     codebook_size = 2 ** bits
     codebook = np.fromfile(fin, dtype = np.float32, count = codebook_size)
-    bias = np.fromfile(fin, dtype = np.float32, count = net.params[layer][1].data.size)
+    bias = np.fromfile(fin, dtype = np.float32,
+                       count = net.params[layer][1].data.size)
     np.copyto(net.params[layer][1].data, bias)
 
-    spm_stream = np.fromfile(fin, dtype = np.uint8, count = (nz_num[idx]-1) / (8/bits) + 1)
-    ind_stream = np.fromfile(fin, dtype = np.uint8, count = (nz_num[idx]-1) / 2+1)
+    spm_stream = np.fromfile(fin, dtype = np.uint8,
+                             count = (nz_num[idx]-1) / (8/bits) + 1)
+    ind_stream = np.fromfile(fin, dtype = np.uint8,
+                             count = (nz_num[idx]-1) / 2+1)
 
-    binary_to_net(net.params[layer][0].data, spm_stream, ind_stream, codebook, nz_num[idx])
+    encoded_weights[layer] = (binary_to_net(net.params[layer][0].data,
+                                           spm_stream, ind_stream,
+                                           codebook, nz_num[idx]), codebook)
 
+pickle.dump(encoded_weights, 'encoded_weights.pkl')
 net.save(target)
 print "All done! See your output caffemodel and test its accuracy."
