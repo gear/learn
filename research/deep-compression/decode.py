@@ -125,6 +125,6 @@ for idx, layer in enumerate(layers):
                                            spm_stream, ind_stream,
                                            codebook, nz_num[idx]), codebook)
 
-pickle.dump(encoded_weights, 'encoded_weights.pkl')
+pickle.dump(encoded_weights, open('encoded_weights.pkl', 'wb'))
 net.save(target)
 print "All done! See your output caffemodel and test its accuracy."

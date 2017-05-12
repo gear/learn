@@ -1,0 +1,11 @@
+# Ignore caffe model file
+*.caffemodel
+
+# Ignore local file
+local-*
+
+# Ignore pickle and numpy
+*.pkl
+*.pickle
+*.npy
+*.numpy
