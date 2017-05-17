@@ -35,7 +35,7 @@ else
 	NVCCFLAGS := -m64
 endif
 
-TARGETS = transpose
+TARGETS = local-transpose
 
 all: $(TARGETS)
 
