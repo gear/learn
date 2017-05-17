@@ -295,8 +295,34 @@ kernel (as done for naiveTransposeKernel) or in README.txt.
 
 _Answer_:
 
-Output from the console:
+Output from the console: (GTX 580)
+```
+Index of the GPU with the lowest temperature: 0 (44 C)
+Time limit for this program set to 10 seconds
+Size 512 naive CPU: 0.443040 ms
+Size 512 GPU memcpy: 0.032032 ms
+Size 512 naive GPU: 0.062720 ms
+Size 512 shmem GPU: 0.026016 ms
+Size 512 optimal GPU: 0.017600 ms
 
+Size 1024 naive CPU: 2.640128 ms
+Size 1024 GPU memcpy: 0.052864 ms
+Size 1024 naive GPU: 0.253152 ms
+Size 1024 shmem GPU: 0.088224 ms
+Size 1024 optimal GPU: 0.072128 ms
+
+Size 2048 naive CPU: 33.025375 ms
+Size 2048 GPU memcpy: 0.217152 ms
+Size 2048 naive GPU: 1.079072 ms
+Size 2048 shmem GPU: 0.306272 ms
+Size 2048 optimal GPU: 0.245728 ms
+
+Size 4096 naive CPU: 155.485855 ms
+Size 4096 GPU memcpy: 0.797472 ms
+Size 4096 naive GPU: 4.658048 ms
+Size 4096 shmem GPU: 1.159136 ms
+Size 4096 optimal GPU: 0.980992 ms
+```
 
 ### BONUS
 
