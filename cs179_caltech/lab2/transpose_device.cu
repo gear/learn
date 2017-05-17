@@ -30,7 +30,7 @@
  * You may notice that we suggested in lecture that threads should be able to
  * handle an arbitrary number of elements and that this kernel handles exactly
  * 4 elements per thread. This is OK here because to overwhelm this kernel
- * it would take a 4194304 x 4194304    matrix, which would take ~17.6TB of
+ * it would take a 4194304 x 4194304 matrix, which would take ~17.6TB of
  * memory (well beyond what I expect GPUs to have in the next few years).
  */
 __global__
@@ -54,6 +54,7 @@ __global__
 void shmemTransposeKernel(const float *input, float *output, int n) {
 
     __shared__ float data[64*64];
+
     int s_i = threadIdx.x;
     int s_j = threadIdx.y * 4;
 
@@ -61,26 +62,53 @@ void shmemTransposeKernel(const float *input, float *output, int n) {
     int j = 4 * threadIdx.y + 64 * blockIdx.y;
     const int end_k = 4;
 
+    /* I would like to move all non-linear transformation
+     * into the shared memory, therefore we need to specify
+     * the indices for the transposed matrix instead of just
+     * swapping i and j.
+     */
+    const int i_t = threadIdx.x + 64 * blockIdx.y;
+    int j_t = 4 * threadIdx.y + 64 * blockIdx.x;
+
+
     for (int k = 0; k < end_k; k++)
-        data[s_i + (s_j + k)*64] = input[i + n * (j + k)];
+        data[s_j + k + s_i*64] = input[i + n * (j + k)];
     __syncthreads();
 
     for (int k = 0; k < end_k; k++)
-        output[j + k + n * i] = data[s_i + (s_j + k)*64];
+        output[i_t + n * (j_t + k)] = data[s_i + (s_j+k)*64];
 }
 
 __global__
 void optimalTransposeKernel(const float *input, float *output, int n) {
-    // TODO: This should be based off of your shmemTransposeKernel.
-    // Use any optimization tricks discussed so far to improve performance.
-    // Consider ILP and loop unrolling.
+  /* Zero-padding for shared memory to avoid bank conflicts */
+  __shared__ float data[64*65];
 
-    const int i = threadIdx.x + 64 * blockIdx.x;
-    int j = 4 * threadIdx.y + 64 * blockIdx.y;
-    const int end_j = j + 4;
+  int s_i = threadIdx.x;
+  int s_j = threadIdx.y * 4;
 
-    for (; j < end_j; j++)
-        output[j + n * i] = input[i + n * j];
+  const int i = threadIdx.x + 64 * blockIdx.x;
+  int j = 4 * threadIdx.y + 64 * blockIdx.y;
+
+  /* I would like to move all non-linear transformation
+   * into the shared memory, therefore we need to specify
+   * the indices for the transposed matrix instead of just
+   * swapping i and j.
+   */
+  const int i_t = threadIdx.x + 64 * blockIdx.y;
+  int j_t = 4 * threadIdx.y + 64 * blockIdx.x;
+
+  /* Unroll the loop too */
+  data[s_j + 0 + s_i*65] = input[i + n * (j + 0)];
+  data[s_j + 1 + s_i*65] = input[i + n * (j + 1)];
+  data[s_j + 2 + s_i*65] = input[i + n * (j + 2)];
+  data[s_j + 3 + s_i*65] = input[i + n * (j + 3)];
+  __syncthreads();
+
+  output[i_t + n * (j_t + 0)] = data[s_i + (s_j+0)*65];
+  output[i_t + n * (j_t + 1)] = data[s_i + (s_j+1)*65];
+  output[i_t + n * (j_t + 2)] = data[s_i + (s_j+2)*65];
+  output[i_t + n * (j_t + 3)] = data[s_i + (s_j+3)*65];
 }
 
 void cudaTranspose(
