@@ -39,10 +39,10 @@ TARGETS = transpose
 
 all: $(TARGETS)
 
-transpose: transpose_host.cpp ta_utilities.cpp transpose.o
+local-transpose: transpose_host.cpp ta_utilities.cpp local-transpose.o
 	$(CC) $^ -o $@ -O3 $(LDFLAGS) -Wall -I$(CUDA_INC_PATH)
 
-transpose.o: transpose_device.cu
+local-transpose.o: transpose_device.cu
 	$(NVCC) $(NVCCFLAGS) -O3 $(EXTRA_NVCCFLAGS) $(GENCODE_FLAGS) -I$(CUDA_INC_PATH) -o $@ -c $<
 
 clean:
