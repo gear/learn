@@ -357,3 +357,9 @@ for (int i = 0; i < n; i++)
     a[i] = x[i] + y[i] + z[i];
 
 List at least 2 ways (you don't need more than a sentence or two for each way).
+
+_Answer_:
+
+1. Instruction dependencies present in 2 `vector_add` calls.
+2. More memory operations in `vector_add` (4 reads + 2 writes vs 3 reads +
+1 write).
