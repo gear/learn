@@ -1,18 +1,60 @@
-CUDA_ROOT ?= /usr/local/cuda-8.0
-NVCC ?= $(CUDA_ROOT)/bin/nvcc
-CC := /usr/bin/g++
-LD_CUDA_FLAGS := -lcudart
-CUDA_INCLUDE := $(CUDA_ROOT)/include
-CUDA_LIBRARY := $(CUDA_ROOT)/lib64
+CC = /usr/bin/g++
 
-TARGETS = print_threads
+LD_FLAGS = -lrt
+
+CUDA_PATH       ?= /usr/local/cuda
+CUDA_INC_PATH   ?= $(CUDA_PATH)/include
+CUDA_BIN_PATH   ?= $(CUDA_PATH)/bin
+CUDA_LIB_PATH   ?= $(CUDA_PATH)/lib
+
+# CUDA code generation flags
+GENCODE_FLAGS   := -gencode arch=compute_20,code=sm_20 -gencode arch=compute_30,code=sm_30 -gencode arch=compute_35,code=sm_35
+
+# Common binaries
+NVCC            ?= $(CUDA_BIN_PATH)/nvcc
+
+# OS-specific build flags
+ifeq ($(shell uname),Darwin)
+        LDFLAGS       := -Xlinker -rpath $(CUDA_LIB_PATH) -L$(CUDA_LIB_PATH) -lcudart -lcufft -lsndfile
+        CCFLAGS           := -arch $(OS_ARCH)
+else
+        ifeq ($(OS_SIZE),32)
+                LDFLAGS   := -L$(CUDA_LIB_PATH) -lcudart -lcufft -lsndfile
+                CCFLAGS   := -m32
+        else
+                CUDA_LIB_PATH := $(CUDA_LIB_PATH)64
+                LDFLAGS       := -L$(CUDA_LIB_PATH) -lcudart -lcufft -lsndfile
+                CCFLAGS       := -m64
+        endif
+endif
+
+# OS-architecture specific flags
+ifeq ($(OS_SIZE),32)
+      NVCCFLAGS := -m32 -lcufft
+else
+      NVCCFLAGS := -m64 -lcufft
+endif
+
+TARGETS = print_threads array_sum prescan
 all: $(TARGETS)
 
 print_threads: print_threads.cpp print_kernel.o
-	$(CC) $< -o $@ print_kernel.o -O3 -Wall -I$(CUDA_INCLUDE) -L$(CUDA_LIBRARY) $(LD_CUDA_FLAGS)
+	$(CC) $^ $@ -O3 $(LDFLAGS) -Wall -I$(CUDA_INC_PATH)
 
 print_kernel.o: print_kernel.cu
-	$(NVCC) -O3 -I$(CUDA_INC_PATH) -o $@ -L$(CUDA_LIBRARY) $(LD_CUDA_FLAGS) -c $<
+	$(NVCC) $(NVCCFLAGS) -O3 $(EXTRA_NVCCFLAGS) $(GENCODE_FLAGS) -I$(CUDA_INC_PATH) -o $@ -c $<
+
+array_sum: array_sum.cpp array_sum_kernel.o
+	$(CC) $^ $@ -O3 $(LDFLAGS) -Wall -I$(CUDA_INC_PATH)
+
+array_sum_kernel.o: array_sum_kernel.cu
+	$(NVCC) $(NVCCFLAGS) -O3 $(EXTRA_NVCCFLAGS) $(GENCODE_FLAGS) -I$(CUDA_INC_PATH) -o $@ -c $<
+
+prescan: prescan.cpp prescan_kernel.o
+		$(CC) $^ $@ -O3 $(LDFLAGS) -Wall -I$(CUDA_INC_PATH)
+
+prescan_kernel.o: prescan_kernel.cu
+		$(NVCC) $(NVCCFLAGS) -O3 $(EXTRA_NVCCFLAGS) $(GENCODE_FLAGS) -I$(CUDA_INC_PATH) -o $@ -c $<
 
 clean:
 	rm -f *.o $(TARGETS)
