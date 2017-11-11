@@ -3,8 +3,8 @@
 import argparse as ap
 
 parser = ap.ArgumentParser(description='General description')
-parser.add_argument('--input', nargs=1, type=str, help='input help')
-parser.add_argument('--output', nargs=1, type=str, help='output help')
+parser.add_argument('--input', type=str, help='input help')
+parser.add_argument('--output', type=str, help='output help', default=None)
 la = parser.parse_args()
 
 def main():
