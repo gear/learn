@@ -1,9 +1,12 @@
 # Stanford CS224N: Natural Language Processing with Deep Learning
 
+NOTE: Moved repository to `https://github.com/gear/cs224n_nlp`.
+
 ## Resources
 1. [Winter 2017 Syllabus](http://web.stanford.edu/class/cs224n/syllabus.html)
 2. [Tensorflow Notebooks](https://colab.research.google.com/)
 3. [Coda Lab](http://codalab.org/)
+4. [Alternative Repository](https://github.com/gear/cs224n_nlp)
 
 ## November Challenge
 Since November is my birth-month, I challenge myself to complete Stanford's
